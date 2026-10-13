@@ -18,7 +18,6 @@ namespace Game.Core.Interaction
         private SpriteRenderer _renderer;
         private GameObject _outlineObject;
         private SpriteRenderer _outlineRenderer;
-        private bool _isHovered;
 
         private void Awake()
         {
@@ -54,8 +53,6 @@ namespace Game.Core.Interaction
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            _isHovered = true;
-
             transform.localScale = _originalScale * _hoverScale;
 
             if (_outlineObject != null)
@@ -64,8 +61,6 @@ namespace Game.Core.Interaction
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            _isHovered = false;
-
             transform.localScale = _originalScale;
 
             if (_outlineObject != null)
@@ -74,7 +69,6 @@ namespace Game.Core.Interaction
 
         private void OnDisable()
         {
-            _isHovered = false;
             transform.localScale = _originalScale;
 
             if (_outlineObject != null)

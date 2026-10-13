@@ -28,6 +28,7 @@ namespace Game.Puzzle
 
         private int _solvedCount;
         private readonly HashSet<PuzzleBase> _registered = new HashSet<PuzzleBase>();
+        private readonly HashSet<PuzzleBase> _solvedSet = new HashSet<PuzzleBase>();
 
         public int TotalCount => _allPuzzles.Count;
         public int SolvedCount => _solvedCount;
@@ -95,7 +96,5 @@ namespace Game.Puzzle
                 }
             }
         }
-
-        private readonly HashSet<PuzzleBase> _solvedSet = new HashSet<PuzzleBase>();
     }
 }
