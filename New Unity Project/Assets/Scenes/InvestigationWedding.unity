@@ -1491,7 +1491,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemId: key_main
   _prompt: "\u62FE\u53D6 "
-  _pickupSound: {fileID: 0}
+  _pickupSound: {fileID: 8300000, guid: a4eb6b9298c223045b54e87f0662696d, type: 3}
   OnPickedUp:
     m_PersistentCalls:
       m_Calls: []
@@ -1942,6 +1942,8 @@ GameObject:
   - component: {fileID: 1356276242}
   - component: {fileID: 1356276239}
   - component: {fileID: 1356276238}
+  - component: {fileID: 1356276244}
+  - component: {fileID: 1356276243}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1993,6 +1995,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1356276243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356276237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b13cffdc03d876747b38c7b0855c81d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _initialState: 0
+  OnStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1356276244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356276237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf8b11f3534af394e8591cf5e0120792, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _database: {fileID: 11400000, guid: ef36b92014bc0ae41a6ea589aa0ac85e, type: 2}
+  OnItemAdded:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1571524071
 GameObject:
   m_ObjectHideFlags: 0
