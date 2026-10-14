@@ -24,9 +24,13 @@ namespace Game.Items
         private readonly HashSet<string> _ownedIds = new HashSet<string>();
 
         [System.Serializable] public class ItemDataEvent : UnityEvent<ItemData> { }
+        [System.Serializable] public class StringEvent : UnityEvent<string> { }
 
         /// <summary>获得道具时触发（参数：ItemData）</summary>
         public ItemDataEvent OnItemAdded;
+
+        /// <summary>移除道具时触发（参数：itemId）</summary>
+        public StringEvent OnItemRemoved;
 
         private void Awake()
         {
@@ -79,7 +83,32 @@ namespace Game.Items
                 return false;
             }
 
-            _ownedIds.Add(itemId);
+            return AddInternal(data);
+        }
+
+        /// <summary>
+        /// 直接通过 ItemData 添加（用于调酒等系统生成的新道具，无需先注册到 database）。
+        /// </summary>
+        public bool Add(ItemData data)
+        {
+            if (data == null)
+            {
+                Debug.LogError("[Inventory] 传入的 ItemData 为空");
+                return false;
+            }
+
+            if (_ownedIds.Contains(data.itemId))
+            {
+                Debug.Log($"[Inventory] 已拥有 {data.itemId}，跳过");
+                return false;
+            }
+
+            return AddInternal(data);
+        }
+
+        private bool AddInternal(ItemData data)
+        {
+            _ownedIds.Add(data.itemId);
             Debug.Log($"[Inventory] ✨ 获得道具: {data.itemName}");
             OnItemAdded?.Invoke(data);
             return true;
@@ -91,10 +120,15 @@ namespace Game.Items
             return !string.IsNullOrEmpty(itemId) && _ownedIds.Contains(itemId);
         }
 
-        /// <summary>移除道具（未来用得到）</summary>
+        /// <summary>移除道具（触发 OnItemRemoved 事件，UI 可监听）</summary>
         public bool Remove(string itemId)
         {
-            return _ownedIds.Remove(itemId);
+            if (string.IsNullOrEmpty(itemId)) return false;
+            if (!_ownedIds.Remove(itemId)) return false;
+
+            Debug.Log($"[Inventory] 🗑 移除道具: {itemId}");
+            OnItemRemoved?.Invoke(itemId);
+            return true;
         }
 
         /// <summary>清空（重置游戏用）</summary>
