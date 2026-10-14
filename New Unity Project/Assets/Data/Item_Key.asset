@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: key_main
   itemName: "\u751F\u9508\u7684\u94A5\u5319"
-  description: "\u4E00\u628A\u770B\u8D77\u6765\u5F88\u4E45\u6CA1\u4EBA\u7528\u8FC7\u7684\u94A5\u5319"
-  icon: {fileID: 0}
+  description: "\u4E00\u628A\u5F88\u65E7\u7684\u94A5\u5319\uFF0C\u4F3C\u4E4E\u80FD\u6253\u5F00\u67D0\u6247\u95E8"
+  icon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   type: 0
   worldPrefab: {fileID: 0}
