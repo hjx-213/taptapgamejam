@@ -11,7 +11,7 @@ public class MainMenuManager : MonoBehaviour
     {
         if (SaveManager.Instance != null)
         {
-            SaveManager.Instance.StartNewGame("Tutorial");
+            SaveManager.Instance.StartNewGame("1-1");
         }
         else
         {

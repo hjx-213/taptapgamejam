@@ -1,4 +1,3 @@
-
 using TMPro;
 using UnityEngine;
 
@@ -22,9 +21,6 @@ public class JournalUI : MonoBehaviour
     [Header("组合结果提示")]
     public TMP_Text combinationResultText;
 
-    private GameObject reasoningPanel;
-    private TMP_Text reasoningMessageText;
-
     private JournalClueView firstSelectedClue;
     private JournalClueView secondSelectedClue;
     private bool isReasoningMode = false;
@@ -42,9 +38,7 @@ public class JournalUI : MonoBehaviour
         if (journalPanel != null)
             journalPanel.SetActive(true);
 
-        if (combinationResultText != null)
-            combinationResultText.text = "";
-
+        ShowMessage("");
         UpdatePageDisplay();
     }
 
@@ -77,9 +71,6 @@ public class JournalUI : MonoBehaviour
 
     private void UpdatePageDisplay()
     {
-        int leftPageNumber = currentPageGroup * 2 + 1;
-        int rightPageNumber = leftPageNumber + 1;
-
         if (previousButton != null)
             previousButton.SetActive(currentPageGroup > 0);
 
@@ -87,7 +78,7 @@ public class JournalUI : MonoBehaviour
             nextButton.SetActive(
                 currentPageGroup < totalPageGroups - 1
             );
-        
+
         if (clueViews != null)
         {
             foreach (JournalClueView clueView in clueViews)
@@ -98,11 +89,23 @@ public class JournalUI : MonoBehaviour
         }
     }
 
+    // 统一使用 CombinationResultText 显示所有提示
+    private void ShowMessage(string message)
+    {
+        if (combinationResultText != null)
+            combinationResultText.text = message;
+    }
+
     public void ToggleClueSelection(JournalClueView clue)
     {
-        Debug.Log("[手记推理] ToggleClueSelection 已调用：" + clue.name);
-        if (clue == null || !isReasoningMode)
+        if (clue == null)
             return;
+
+        if (!isReasoningMode)
+        {
+            ShowMessage("请先打开推理模式。");
+            return;
+        }
 
         if (firstSelectedClue == clue)
         {
@@ -127,15 +130,22 @@ public class JournalUI : MonoBehaviour
         }
         else
         {
-            if (reasoningMessageText != null)
-                reasoningMessageText.text = "最多选择两条线索。";
+            ShowMessage("最多选择两条线索。");
+            return;
         }
 
-        if (reasoningMessageText != null &&
-            firstSelectedClue != null &&
+        if (firstSelectedClue != null &&
             secondSelectedClue != null)
         {
-            reasoningMessageText.text = "已选择两条线索，点击推理进行组合。";
+            ShowMessage("已选择两条线索，点击推理进行组合。");
+        }
+        else if (firstSelectedClue != null)
+        {
+            ShowMessage("已选择一条线索，请再选择一条。");
+        }
+        else
+        {
+            ShowMessage("请选择两条线索进行组合。");
         }
     }
 
@@ -146,14 +156,12 @@ public class JournalUI : MonoBehaviour
         if (!isReasoningMode)
         {
             ClearSelectedClues();
+            ShowMessage("已退出推理模式。");
         }
-        else if (reasoningMessageText != null)
+        else
         {
-            reasoningMessageText.text = "请选择两条线索进行组合。";
+            ShowMessage("已打开推理模式，请选择两条线索。");
         }
-
-        if (reasoningPanel != null)
-            reasoningPanel.SetActive(false);
 
         Debug.Log(isReasoningMode
             ? "已进入推理模式"
@@ -164,21 +172,22 @@ public class JournalUI : MonoBehaviour
     {
         if (!isReasoningMode)
         {
-            Debug.Log("请先进入推理模式。");
+            ShowMessage("请先打开推理模式。");
             return;
         }
 
-        if (firstSelectedClue == null || secondSelectedClue == null)
+        if (firstSelectedClue == null ||
+            secondSelectedClue == null)
         {
-            Debug.Log("请先选择两条线索。");
+            ShowMessage("请先选择两条线索。");
             return;
         }
 
         if (firstSelectedClue.entryData == null ||
             secondSelectedClue.entryData == null)
         {
-            Debug.LogError("所选线索缺少数据绑定！");
-            ClearSelectedClues();
+            ShowMessage("线索数据缺失，无法进行推理。");
+            ClearSelectedClues(false);
             return;
         }
 
@@ -187,27 +196,28 @@ public class JournalUI : MonoBehaviour
 
         bool correctCombination =
             (clueA == "clue_brother_letter" &&
-            clueB == "clue_test_photo") ||
+             clueB == "clue_test_photo") ||
             (clueA == "clue_test_photo" &&
-            clueB == "clue_brother_letter");
+             clueB == "clue_brother_letter");
 
         if (correctCombination)
         {
             if (JournalManager.Instance == null)
             {
-                Debug.LogError("找不到 JournalManager！");
-                ClearSelectedClues();
+                ShowMessage("找不到手记管理器，无法解锁线索。");
+                ClearSelectedClues(false);
                 return;
             }
 
-            JournalManager.Instance.UnlockClue("clue_date_connection");
+            JournalManager.Instance.UnlockClue(
+                "clue_date_connection"
+            );
 
-            if (combinationResultText != null)
-                combinationResultText.text = "发现了信件与照片之间的联系！";
+            ShowMessage("发现了信件与照片之间的联系！");
 
             Debug.Log("推理成功：解锁 clue_date_connection。");
 
-            // 刷新所有线索，让新线索立即显示。
+            // 刷新所有线索；新线索会显示在它所属的页面。
             if (clueViews != null)
             {
                 foreach (JournalClueView view in clueViews)
@@ -219,16 +229,15 @@ public class JournalUI : MonoBehaviour
         }
         else
         {
-            if (combinationResultText != null)
-                combinationResultText.text = "这两条线索似乎没有直接联系。";
-
+            ShowMessage("这两条线索似乎没有直接联系。");
             Debug.Log("推理失败：这两条线索无法组合。");
         }
 
-        ClearSelectedClues();
+        // 清除选中状态，但保留刚刚显示的结果文字。
+        ClearSelectedClues(false);
     }
 
-    private void ClearSelectedClues()
+    private void ClearSelectedClues(bool clearMessage = true)
     {
         if (firstSelectedClue != null)
             firstSelectedClue.SetSelected(false);
@@ -239,7 +248,7 @@ public class JournalUI : MonoBehaviour
         firstSelectedClue = null;
         secondSelectedClue = null;
 
-        if (reasoningMessageText != null)
-            reasoningMessageText.text = "";
+        if (clearMessage)
+            ShowMessage("");
     }
 }

@@ -30,7 +30,10 @@ public class JournalClueView : MonoBehaviour
     {
         if (entryData == null)
         {
-            Debug.LogError("[手记] 没有绑定线索数据：" + gameObject.name);
+            Debug.LogError(
+                "[手记] 没有绑定线索数据：" + gameObject.name
+            );
+
             SetVisible(false);
             return;
         }
@@ -43,11 +46,18 @@ public class JournalClueView : MonoBehaviour
         }
 
         bool unlocked =
-            JournalManager.Instance.IsClueUnlocked(entryData.clueId);
+            JournalManager.Instance.IsClueUnlocked(
+                entryData.clueId
+            );
 
         bool onCurrentPage =
             entryData.pageGroup == currentPageGroup;
 
+        // 未解锁的线索不能保留选中状态。
+        if (!unlocked)
+            SetSelected(false);
+
+        // 翻页只隐藏不属于当前页的线索，不取消其选中状态。
         SetVisible(unlocked && onCurrentPage);
 
         if (titleText != null)
@@ -68,13 +78,13 @@ public class JournalClueView : MonoBehaviour
         if (visualRoot != null)
             visualRoot.SetActive(visible);
 
-        // 未解锁或不在当前页时，禁用整张卡片的点击功能。
+        // 当前页不可见时，禁止点击，但不清除选中状态。
         Button button = GetComponent<Button>();
         if (button != null)
             button.interactable = visible;
 
-        // 同时清除这张卡片可能残留的选中高亮。
-        if (!visible)
-            SetSelected(false);
+        // 高亮只在卡片可见时显示。
+        if (selectedHighlight != null)
+            selectedHighlight.SetActive(visible && IsSelected);
     }
 }

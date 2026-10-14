@@ -16,4 +16,4 @@ MonoBehaviour:
   clueTitle: "\u73B0\u573A\u53D1\u73B0\u7684\u7167\u7247"
   clueContent: "\u7167\u7247\u80CC\u9762\u5199\u7740\u4E00\u4E32\u6A21\u7CCA\u7684\u6570\u5B57\u3002"
   clueImage: {fileID: 21300000, guid: a8162eaafb9360c40966fb78cabaccc0, type: 3}
-  pageGroup: 0
+  pageGroup: 1
