@@ -82,15 +82,8 @@ namespace Game.Items.DragDrop
                     zone.OnItemDropped(this);
                     OnDropped?.Invoke(zone);
 
-                    // 消耗型：消失；工具型：归位
-                    if (_consumeOnDrop)
-                    {
-                        gameObject.SetActive(false);
-                    }
-                    else
-                    {
-                        transform.position = _originalPosition;
-                    }
+                    // 场景物品拖拽成功后始终归位，不因消耗设置而消失
+                    transform.position = _originalPosition;
                     return;
                 }
             }

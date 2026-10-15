@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 795d515b5104dbc438b3979ea4185b3c, type: 3}
-  m_Name: Item_Key
+  m_Name: "\u6C34\u69FD"
   m_EditorClassIdentifier: 
   itemId: key_main
   itemName: "\u751F\u9508\u7684\u94A5\u5319"

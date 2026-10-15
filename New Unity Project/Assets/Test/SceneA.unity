@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 377049809}
   - component: {fileID: 377049813}
   m_Layer: 0
-  m_Name: Pickup_Key
+  m_Name: "\u5E26\u8840\u94F6\u89D2\u676F"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -238,7 +238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa8098902b502c241b3c4fedf6d20cf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemId: key_main
+  _itemId: daixueyinjiaobei
   _prompt: "\u62FE\u53D6 "
   _pickupSound: {fileID: 0}
   OnPickedUp:
@@ -281,14 +281,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 5.79, y: 7.22}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 6, y: 7}
   m_EdgeRadius: 0
 --- !u!212 &377049811
 SpriteRenderer:
@@ -331,8 +331,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.8305316, g: 0.24705881, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 5f938d46237b92e4992e28f76b4e8c57, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -351,8 +351,8 @@ Transform:
   m_GameObject: {fileID: 377049808}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 3, y: 3, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -369,9 +369,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e3ca47f0612745479c5ff440ad52f14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineColor: {r: 1, g: 0.85, b: 0.3, a: 1}
+  _outlineColor: {r: 1, g: 0.2980392, b: 0.33683437, a: 1}
   _outlineScale: 1.08
-  _hoverScale: 1.08
+  _hoverScale: 1.1
 --- !u!1 &397704365
 GameObject:
   m_ObjectHideFlags: 0
@@ -664,6 +664,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _iconImage: {fileID: 780375554}
   _hoverColor: {r: 0.85, g: 0.85, b: 0.85, a: 1}
+  _ruleManager: {fileID: 0}
   OnClicked:
     m_PersistentCalls:
       m_Calls: []
@@ -1322,6 +1323,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _iconImage: {fileID: 637798119}
   _hoverColor: {r: 0.85, g: 0.85, b: 0.85, a: 1}
+  _ruleManager: {fileID: 0}
   OnClicked:
     m_PersistentCalls:
       m_Calls: []
@@ -1539,6 +1541,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _iconImage: {fileID: 903246635}
   _hoverColor: {r: 0.85, g: 0.85, b: 0.85, a: 1}
+  _ruleManager: {fileID: 0}
   OnClicked:
     m_PersistentCalls:
       m_Calls: []
@@ -1722,6 +1725,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _iconImage: {fileID: 1406534986}
   _hoverColor: {r: 0.85, g: 0.85, b: 0.85, a: 1}
+  _ruleManager: {fileID: 0}
   OnClicked:
     m_PersistentCalls:
       m_Calls: []
@@ -2235,8 +2239,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c03c70bdced8034bbca9f056b91b985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _targetId: 
   _acceptedItemIds:
   - stone_main
+  _ruleManager: {fileID: 0}
   OnItemReceived:
     m_PersistentCalls:
       m_Calls: []
@@ -2668,6 +2674,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _iconImage: {fileID: 505045578}
   _hoverColor: {r: 0.85, g: 0.85, b: 0.85, a: 1}
+  _ruleManager: {fileID: 0}
   OnClicked:
     m_PersistentCalls:
       m_Calls: []

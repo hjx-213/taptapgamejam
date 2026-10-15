@@ -6,24 +6,30 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Test/SceneA.unity
-    guid: 3fcb86efecde15b4d90e9f2cccdcbcf3
-  - enabled: 1
-    path: Assets/Test/SceneB.unity
-    guid: 8f7de7c6248cc3248872c3c1f07cec07
-  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 807ec7a06823ba145b9f470832346149
   - enabled: 1
     path: Assets/Scenes/1-1.unity
     guid: f51ce0f093415474cbb382d02052bd6d
   - enabled: 1
-    path: Assets/Scenes/InvestigationRevenge.unity
-    guid: 879e1518844136f439703f0c6ecda08f
+    path: Assets/Scenes/1-2.unity
+    guid: 6a02d0441be31b44fb602475e106435d
   - enabled: 1
-    path: Assets/Scenes/InvestigationWedding.unity
-    guid: 64944f7a6f6ce1445a4dc7513b9f8979
+    path: Assets/Scenes/2-1.unity
+    guid: 1ba1b48484742c849bbe7295313042cb
   - enabled: 1
-    path: Assets/Scenes/Ending.unity
-    guid: 620532c2d8b51264f9807d48b714c526
+    path: Assets/Scenes/2-2.unity
+    guid: d6d4a0563a5abc247b996a3e2ee2330e
+  - enabled: 1
+    path: Assets/Scenes/2-3.unity
+    guid: f1ced67874db1df42ab057fad23e5cec
+  - enabled: 1
+    path: Assets/Scenes/3-1.unity
+    guid: 6197a5af0327646478be0905f0a21c8e
+  - enabled: 1
+    path: Assets/Scenes/3-2.unity
+    guid: 9c2d554c5895c834b8d4d8180fcb0c68
+  - enabled: 1
+    path: Assets/Scenes/3-3.unity
+    guid: 740ff154c153c4349bd6001f3cf04312
   m_configObjects: {}
