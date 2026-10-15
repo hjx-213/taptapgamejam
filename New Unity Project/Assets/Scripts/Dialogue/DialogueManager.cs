@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -25,9 +26,45 @@ namespace Game.Dialogue
         [Header("剧情入口")]
         [SerializeField] private int startId = 0;
 
+        [System.Serializable]
+        public class DialogueFlagEntry
+        {
+            [Tooltip("触发标记的 END 对应的剧情 ID")]
+            public int endDialogueId;
+
+            [Tooltip("要设置的剧情标记名称")]
+            public string flagName;
+
+            [Tooltip("要设置的标记值")]
+            public bool flagValue = true;
+        }
+
+        [Header("对话结束时设置剧情标记")]
+        [SerializeField] private DialogueFlagEntry[] dialogueFlags;
+
+        [Tooltip("开启：进入场景时自动播放开场/存档剧情；关闭：进入场景后直接探索。")]
+        [SerializeField] private bool autoPlayOnSceneEnter = true;
+
         private int currentId;
         private bool isFinished;
+        private bool isTemporaryInfo;
+        private int temporaryNextStoryId = -1;
         private AudioDatabase audioDatabase;
+
+        // 一段主线对话开始
+        public event Action<int> DialogueStarted;
+
+        // 每条普通台词开始显示，参数是该台词的 ID
+        public event Action<int> DialogueRecordStarted;
+
+        // 一段主线对话真正结束
+        public event Action DialogueFinished;
+
+        /// <summary>当前是否正在显示对话（主线或临时调查信息）。</summary>
+        public bool IsDialogueVisible => dialogueUI != null && dialogueUI.gameObject.activeInHierarchy;
+
+        /// <summary>当前是否正在播放主线剧情或临时调查信息。</summary>
+        public bool IsDialogueActive => !isFinished && IsDialogueVisible;
 
         private void Start()
         {
@@ -45,16 +82,26 @@ namespace Game.Dialogue
                 return;
             }
 
-            if (SaveManager.Instance != null &&
-                SaveManager.Instance.TryGetDialogueId(
-                    UnityEngine.SceneManagement.SceneManager.GetActiveScene().name,
-                    out int savedId))
+            // 仅在允许自动开场时读取并恢复本场景的主线对话进度。
+            if (autoPlayOnSceneEnter)
             {
-                currentId = savedId;
+                if (SaveManager.Instance != null &&
+                    SaveManager.Instance.TryGetDialogueId(
+                        UnityEngine.SceneManagement.SceneManager.GetActiveScene().name,
+                        out int savedId))
+                {
+                    currentId = savedId;
+                }
+                else
+                {
+                    currentId = startId;
+                }
             }
             else
             {
                 currentId = startId;
+                isFinished = true;
+                dialogueUI.HideDialogue();
             }
 
             audioDatabase = FindObjectOfType<AudioDatabase>();
@@ -62,13 +109,34 @@ namespace Game.Dialogue
                 Debug.LogWarning("[DialogueManager] 场景中没有找到 AudioDatabase，剧情仍可播放，但音频列不会生效。");
 
             RestoreSavedBGM();
-            ShowCurrentDialogue();
+
+            if (autoPlayOnSceneEnter)
+                ShowCurrentDialogue();
         }
 
         private void Update()
         {
             if (isFinished)
                 return;
+
+            bool spacePressed = Input.GetKeyDown(KeyCode.Space);
+            bool mousePressed = Input.GetMouseButtonDown(0);
+
+            if (!spacePressed && !mousePressed)
+                return;
+
+            // 鼠标点击 UI 不推进对话，避免点选项/按钮时同时推进剧情。
+            if (mousePressed &&
+                EventSystem.current != null &&
+                EventSystem.current.IsPointerOverGameObject())
+                return;
+
+            // 临时调查信息使用同一套打字机和输入规则，但不读写 currentId。
+            if (isTemporaryInfo)
+            {
+                HandleTemporaryInfoInput();
+                return;
+            }
 
             if (!dataReader.TryGetRecord(
                     currentId, out DialogueRecord record))
@@ -78,25 +146,89 @@ namespace Game.Dialogue
             if (record.flag == "&")
                 return;
 
-            bool spacePressed = Input.GetKeyDown(KeyCode.Space);
-            bool mousePressed = Input.GetMouseButtonDown(0);
+            HandleAdvanceInput();
+        }
 
-            if (!spacePressed && !mousePressed)
+        private void HandleTemporaryInfoInput()
+        {
+            // 打字期间：先显示完整调查文字。
+            if (dialogueUI.IsTyping)
+            {
+                dialogueUI.CompleteTyping();
                 return;
-
-            // 空格始终可用；鼠标点击 UI 时不推进剧情。
-            if (spacePressed)
-            {
-                HandleAdvanceInput();
             }
-            else if (mousePressed)
-            {
-                if (EventSystem.current != null &&
-                    EventSystem.current.IsPointerOverGameObject())
-                    return;
 
-                HandleAdvanceInput();
+            int nextStoryId = temporaryNextStoryId;
+            isTemporaryInfo = false;
+            temporaryNextStoryId = -1;
+            dialogueUI.HideDialogue();
+
+            // 关键物品：调查信息结束后，开始指定的主线剧情。
+            if (nextStoryId >= 0)
+                StartMainDialogue(nextStoryId);
+            else
+                isFinished = true;
+        }
+
+        /// <summary>
+        /// 从指定 ID 开始主线剧情。主线进度仍按原有机制保存。
+        /// 可用于角色点击或调查信息结束后的剧情衔接。
+        /// </summary>
+        public void StartMainDialogue(int dialogueId)
+        {
+            if (dataReader == null || dialogueUI == null)
+            {
+                Debug.LogError("[DialogueManager] 无法开始剧情：未绑定数据读取器或对话 UI。");
+                return;
             }
+
+            if (!dataReader.TryGetRecord(dialogueId, out DialogueRecord record))
+            {
+                Debug.LogError($"[DialogueManager] 找不到指定剧情 ID：{dialogueId}");
+                return;
+            }
+
+            isTemporaryInfo = false;
+            temporaryNextStoryId = -1;
+            isFinished = false;
+            currentId = dialogueId;
+
+            SaveCurrentProgress();
+
+            // 通知订阅者：一段主线对话开始
+            DialogueStarted?.Invoke(dialogueId);
+
+            ShowCurrentDialogue();
+        }
+
+        /// <summary>
+        /// 显示一段临时调查信息。nextStoryId 小于 0 表示结束后返回探索；
+        /// 否则在玩家读完并再次输入后，开始指定主线剧情。
+        /// 临时信息不会修改主线 currentId 或存档中的主线对话进度。
+        /// </summary>
+        public void ShowTemporaryInfo(
+            string content,
+            string characterName = "调查",
+            string position = "左",
+            Sprite avatar = null,
+            int nextStoryId = -1)
+        {
+            if (dialogueUI == null)
+            {
+                Debug.LogError("[DialogueManager] 无法显示调查信息：未绑定 DialogueUI。");
+                return;
+            }
+
+            isTemporaryInfo = true;
+            temporaryNextStoryId = nextStoryId;
+            isFinished = false;
+
+            dialogueUI.ShowDialogue(
+                characterName,
+                content,
+                position,
+                avatar
+            );
         }
 
         private void HandleAdvanceInput()
@@ -183,6 +315,7 @@ namespace Game.Dialogue
 
             if (record.flag == "END")
             {
+                ApplyDialogueFlags(currentId);
                 FinishDialogue();
                 return;
             }
@@ -204,6 +337,9 @@ namespace Game.Dialogue
 
             if (bracketIndex >= 0)
                 displayName = displayName.Substring(0, bracketIndex).Trim();
+
+            // 通知订阅者：当前 ID 对应的台词即将显示
+            DialogueRecordStarted?.Invoke(currentId);
 
             dialogueUI.ShowDialogue(
                 displayName,
@@ -364,11 +500,45 @@ namespace Game.Dialogue
             ShowCurrentDialogue();
         }
 
+        private void ApplyDialogueFlags(int endedDialogueId)
+        {
+            if (dialogueFlags == null || FlagManager.Instance == null)
+                return;
+
+            foreach (DialogueFlagEntry entry in dialogueFlags)
+            {
+                if (entry == null)
+                    continue;
+
+                if (entry.endDialogueId != endedDialogueId)
+                    continue;
+
+                if (string.IsNullOrWhiteSpace(entry.flagName))
+                    continue;
+
+                FlagManager.Instance.SetFlag(
+                    entry.flagName,
+                    entry.flagValue
+                );
+
+                Debug.Log(
+                    $"[DialogueManager] 剧情 ID {endedDialogueId} 结束，" +
+                    $"设置标记 {entry.flagName} = {entry.flagValue}"
+                );
+            }
+        }
+
         private void FinishDialogue()
         {
             isFinished = true;
+            isTemporaryInfo = false;
+            temporaryNextStoryId = -1;
+
             dialogueUI.HideDialogue();
+
             Debug.Log("[DialogueManager] 当前剧情结束。");
+
+            DialogueFinished?.Invoke();
         }
     }
 }

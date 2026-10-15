@@ -25,6 +25,14 @@ public class PlayerInteraction : MonoBehaviour
 
     private void TryInteract()
     {
+        // 对话显示期间，不允许点击场景物品。
+        // 对话推进仍由 DialogueManager 负责。
+        Game.Dialogue.DialogueManager dialogueManager =
+            FindObjectOfType<Game.Dialogue.DialogueManager>();
+
+        if (dialogueManager != null && dialogueManager.IsDialogueActive)
+            return;
+
         if (mainCamera == null)
         {
             Debug.LogWarning("PlayerInteraction：没有找到主摄像机！");

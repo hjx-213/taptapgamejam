@@ -20,6 +20,10 @@ public class SaveManager : MonoBehaviour
 
         // 当前周目已经解锁的手记线索
         public List<string> unlockedClueIds = new List<string>();
+
+        // 当前存档中的剧情标记
+        public List<FlagManager.FlagEntry> storyFlags =
+            new List<FlagManager.FlagEntry>();
     }
 
     private string SavePath =>
@@ -30,6 +34,12 @@ public class SaveManager : MonoBehaviour
     public bool HasSave =>
         CurrentSave != null &&
         !string.IsNullOrEmpty(CurrentSave.sceneName);
+
+    private void Start()
+    {
+        // 等各组件完成 Awake 后再恢复标记
+        RestoreStoryFlags();
+    }
 
     private void Awake()
     {
@@ -71,6 +81,38 @@ public class SaveManager : MonoBehaviour
         CurrentSave.bgmStopped = stopped;
 
         WriteToDisk();
+    }
+
+    // 保存剧情标记
+    public void SaveStoryFlags(
+        List<FlagManager.FlagEntry> flags)
+    {
+        if (CurrentSave == null)
+            return;
+
+        CurrentSave.storyFlags = flags != null
+            ? new List<FlagManager.FlagEntry>(flags)
+            : new List<FlagManager.FlagEntry>();
+
+        WriteToDisk();
+    }
+
+    // 将存档中的剧情标记恢复到 FlagManager
+    public void RestoreStoryFlags()
+    {
+        if (FlagManager.Instance == null)
+        {
+            Debug.LogWarning(
+                "[SaveManager] 找不到 FlagManager，暂时无法恢复剧情标记。");
+            return;
+        }
+
+        List<FlagManager.FlagEntry> savedFlags =
+            CurrentSave != null
+            ? CurrentSave.storyFlags
+            : null;
+
+        FlagManager.Instance.RestoreFlags(savedFlags);
     }
 
     // 保存当前已解锁的手记线索
@@ -122,12 +164,19 @@ public class SaveManager : MonoBehaviour
             return;
         }
 
+        // 在加载场景之前恢复剧情标记
+        RestoreStoryFlags();
+
         SceneManager.LoadScene(CurrentSave.sceneName);
     }
 
     public void StartNewGame(string firstSceneName)
     {
         DeleteSave();
+        if (FlagManager.Instance != null)
+        {
+            FlagManager.Instance.ResetFlags();
+        }
         if (JournalManager.Instance != null)
         {
             JournalManager.Instance.ResetClues();
