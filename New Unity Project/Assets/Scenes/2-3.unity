@@ -424,7 +424,7 @@ MonoBehaviour:
   _targetId: shuicao
   _acceptedItemIds:
   - daixueyinjiaobei
-  _ruleManager: {fileID: 0}
+  _ruleManager: {fileID: 1756668381}
   OnItemReceived:
     m_PersistentCalls:
       m_Calls: []
@@ -1386,6 +1386,66 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1756668380
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1756668382}
+  - component: {fileID: 1756668381}
+  m_Layer: 0
+  m_Name: DragDropRuleManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1756668381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756668380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16d23cac7623abc42b282b1c745d1ef2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 1086573631}
+  imageTransition: {fileID: 0}
+  rules:
+  - ruleName: "\u6E05\u6D17\u94F6\u89D2\u676F"
+    requirements:
+    - sourceItemId: daixueyinjiaobei
+      targetId: shuicao
+      requiredCount: 1
+    playDialogue: 0
+    dialogueId: 0
+    changeImage: 0
+    triggerDialogueId: 0
+    grantItem: 1
+    rewardItemId: yinjiaobei
+    imageTransitionDuration: 0.5
+    totalRequiredCount: 1
+--- !u!4 &1756668382
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756668380}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 561.39453, y: 137.74379, z: -2.3509023}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2060174846
 GameObject:
   m_ObjectHideFlags: 0
@@ -1435,3 +1495,4 @@ SceneRoots:
   - {fileID: 1086573632}
   - {fileID: 960799432}
   - {fileID: 1025112529}
+  - {fileID: 1756668382}
