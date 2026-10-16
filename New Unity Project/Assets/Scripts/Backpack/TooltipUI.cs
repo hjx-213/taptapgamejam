@@ -6,10 +6,8 @@ using Game.Items;
 
 namespace Game.UI
 {
-    /// <summary>
-    /// 悬停提示框：鼠标停在道具槽位上时显示道具名 + 描述。
-    /// 使用 TextMeshPro 显示文字，并跟随鼠标移动。
-    /// </summary>
+    // 悬停提示框：鼠标停在道具槽位上时显示道具名 + 描述。
+    // 使用 TextMeshPro 显示文字，并跟随鼠标移动。
     public class TooltipUI : MonoBehaviour
     {
         private static TooltipUI _instance;
@@ -32,12 +30,12 @@ namespace Game.UI
         [SerializeField] private TMP_Text _descriptionText;
 
         [Header("偏移")]
-        [Tooltip("鼠标右下方偏移（屏幕像素）")]
-        [SerializeField] private Vector2 _offset = new Vector2(16f, -16f);
+        [Tooltip("鼠标正上方偏移（屏幕像素）")]
+        [SerializeField] private Vector2 _offset = new Vector2(0f, 30f);
 
         [Header("样式")]
-        [SerializeField] private int _nameFontSize = 18;
-        [SerializeField] private int _descriptionFontSize = 13;
+        [SerializeField] private int _nameFontSize;
+        [SerializeField] private int _descriptionFontSize;
         [SerializeField] private Color _nameColor =
             new Color(1f, 0.95f, 0.7f, 1f);
         [SerializeField] private Color _descriptionColor =
@@ -122,21 +120,24 @@ namespace Game.UI
                 return;
 
             Vector2 screenPos = Input.mousePosition;
-            Vector2 target = screenPos + _offset;
-
-            // 屏幕右侧越界时，将提示框移到鼠标左侧。
             float halfW = _panel.rect.width * 0.5f;
             float halfH = _panel.rect.height * 0.5f;
 
-            if (target.x + halfW > Screen.width)
-                target.x = screenPos.x - _offset.x - _panel.rect.width;
+            // 默认在鼠标正上方，保留可配置的横向偏移。
+            Vector2 target = screenPos + new Vector2(_offset.x, Mathf.Abs(_offset.y));
 
-            // 屏幕底部越界时，将提示框移到鼠标上方。
-            if (target.y - halfH < 0)
-                target.y = screenPos.y + Mathf.Abs(_offset.y)
-                    + _panel.rect.height;
+            // 左右越界时，自动贴住屏幕边缘。
+            if (target.x - halfW < 0f)
+                target.x = halfW + 8f;
+            else if (target.x + halfW > Screen.width)
+                target.x = Screen.width - halfW - 8f;
 
-            // 保留原有的 Screen Space - Overlay 定位方式。
+            // 顶部/底部越界时，仍然保持在鼠标上方附近。
+            if (target.y + halfH > Screen.height)
+                target.y = Screen.height - halfH - 8f;
+            else if (target.y - halfH < 0f)
+                target.y = halfH + 8f;
+
             _panel.position = new Vector3(target.x, target.y, 0f);
         }
     }

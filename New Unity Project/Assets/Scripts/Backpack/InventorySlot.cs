@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,14 +6,11 @@ using Game.Items.DragDrop;
 
 namespace Game.UI
 {
-    /// <summary>
-    /// 背包槽位：显示道具、悬停提示、点击使用，并支持拖拽到场景目标。
-    /// </summary>
+    /// 背包槽位：显示道具、悬停提示，并支持拖拽到场景目标。
     [RequireComponent(typeof(Image))]
     public class InventorySlot : MonoBehaviour,
         IPointerEnterHandler,
         IPointerExitHandler,
-        IPointerClickHandler,
         IBeginDragHandler,
         IDragHandler,
         IEndDragHandler
@@ -28,13 +24,6 @@ namespace Game.UI
 
         [Header("拖拽规则")]
         [SerializeField] private DragDropRuleManager _ruleManager;
-
-        [Header("事件")]
-        public SlotClickEvent OnClicked;
-
-        [System.Serializable]
-        public class SlotClickEvent :
-            UnityEngine.Events.UnityEvent<ItemData> { }
 
         public ItemData CurrentItem { get; private set; }
         public bool IsEmpty => CurrentItem == null;
@@ -91,8 +80,6 @@ namespace Game.UI
             }
         }
 
-        // ---------- 悬停与点击：保留原有功能 ----------
-
         public void OnPointerEnter(PointerEventData eventData)
         {
             _background.color = _hoverColor;
@@ -109,16 +96,6 @@ namespace Game.UI
                 TooltipUI.Instance.Hide();
         }
 
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            if (_isDragging || IsEmpty)
-                return;
-
-            OnClicked?.Invoke(CurrentItem);
-        }
-
-        // ---------- 背包道具拖拽 ----------
-
         public void OnBeginDrag(PointerEventData eventData)
         {
             if (IsEmpty || _iconImage == null)
@@ -128,7 +105,6 @@ namespace Game.UI
             _draggedItemId = CurrentItem.itemId;
             _iconOriginalPosition = _iconImage.rectTransform.position;
 
-            // 避免拖拽过程中 Tooltip 挡住画面。
             if (TooltipUI.Instance != null)
                 TooltipUI.Instance.Hide();
         }
@@ -138,7 +114,6 @@ namespace Game.UI
             if (!_isDragging || _iconImage == null)
                 return;
 
-            // 只移动图标，不移动整个背包槽位。
             _iconImage.rectTransform.position = eventData.position;
         }
 
@@ -149,7 +124,6 @@ namespace Game.UI
 
             _isDragging = false;
 
-            // 无论成功与否，图标都回到槽位原处。
             if (_iconImage != null)
                 _iconImage.rectTransform.position = _iconOriginalPosition;
 
@@ -168,7 +142,6 @@ namespace Game.UI
                 return;
             }
 
-            // 将鼠标位置转换为世界坐标，检测下方的 2D 碰撞体。
             float depth = Mathf.Abs(_mainCamera.transform.position.z);
 
             Vector3 screenPoint = new Vector3(
@@ -193,14 +166,12 @@ namespace Game.UI
                 if (zone == null || !zone.AcceptsItem(itemId))
                     continue;
 
-                // 确认背包中仍有这个道具。
                 if (Inventory.Instance == null ||
                     !Inventory.Instance.Has(itemId))
                 {
                     return;
                 }
 
-                // 通知规则管理器：这是背包物品拖入目标。
                 if (_ruleManager != null)
                 {
                     _ruleManager.RegisterSuccessfulDrop(
@@ -211,23 +182,14 @@ namespace Game.UI
                 }
                 else
                 {
-                    Debug.LogWarning(
-                        "[InventorySlot] 尚未绑定 DragDropRuleManager。",
-                        this
-                    );
+                    Debug.LogWarning("[InventorySlot] 尚未绑定 DragDropRuleManager。", this);
                 }
 
-                // 成功放入目标后消耗背包物品。
                 Inventory.Instance.Remove(itemId);
 
-                Debug.Log(
-                    $"[InventorySlot] 道具 {itemId} 已拖入目标 {zone.TargetId}。"
-                );
-
+                Debug.Log($"[InventorySlot] 道具 {itemId} 已拖入目标 {zone.TargetId}。");
                 return;
             }
-
-            // 没有成功放入目标：不移除道具。
         }
     }
 }

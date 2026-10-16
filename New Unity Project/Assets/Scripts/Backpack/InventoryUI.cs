@@ -4,22 +4,15 @@ using Game.Items;
 
 namespace Game.UI
 {
-    /// <summary>
-    /// 背包 UI 控制器：监听 Inventory 事件，自动把新道具填入第一个空格位；
-    /// 道具被移除时找到对应槽位并清空。
-    ///
-    /// 搭建方式：
-    ///   1. Canvas 下挂空物体 "InventoryUI"，挂本组件
-    ///   2. 在 Inspector 的 Slots 列表里把所有 InventorySlot 拖入（顺序即填入顺序）
-    ///   3. 默认全场景常驻（DontDestroyOnLoad）
-    /// </summary>
+    // 背包 UI 控制器：监听 Inventory 事件，自动把新道具填入第一个空格位；
+    // 道具被移除时找到对应槽位并清空。
     public class InventoryUI : MonoBehaviour
     {
         [Header("槽位")]
         [Tooltip("所有槽位（按顺序，第一个空格位优先填入）")]
         [SerializeField] private List<InventorySlot> _slots = new List<InventorySlot>();
 
-        [Header("调试")]
+        [Header("打印事件")]
         [Tooltip("启用了会在 Console 打印每次事件")]
         [SerializeField] private bool _verbose = true;
 
@@ -114,16 +107,16 @@ namespace Game.UI
         }
 
         // ---------- 公共方法 ----------
-        /// <summary>显示背包 UI 根物体</summary>
+        // 显示背包 UI 根物体
         public void Show() { gameObject.SetActive(true); }
 
-        /// <summary>隐藏背包 UI 根物体</summary>
+        // 隐藏背包 UI 根物体
         public void Hide() { gameObject.SetActive(false); }
 
-        /// <summary>切换显示/隐藏</summary>
+        // 切换显示/隐藏
         public void Toggle() { gameObject.SetActive(!gameObject.activeSelf); }
 
-        /// <summary>用 Inventory 当前内容刷新所有槽位（用于切换场景后同步）</summary>
+        // 用 Inventory 当前内容刷新所有槽位（用于切换场景后同步）
         public void RefreshFromInventory()
         {
             if (Inventory.Instance == null) return;
