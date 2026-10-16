@@ -16,30 +16,30 @@ namespace Game.Dialogue
             public Sprite avatar;        // 对应头像图片
         }
 
-        [Header("剧情数据")]
+        [Header("剧情文件")]
         [SerializeField] private DialogueDataReader dataReader;
         [SerializeField] private DialogueUI dialogueUI;
 
-        [Header("人物头像表")]
+        [Header("剧情涉及人物")]
         [SerializeField] private AvatarEntry[] avatarEntries;
 
-        [Header("剧情入口")]
+        [Header("第一句ID")]
         [SerializeField] private int startId = 0;
 
         [System.Serializable]
         public class DialogueFlagEntry
         {
-            [Tooltip("触发标记的 END 对应的剧情 ID")]
+            [Tooltip("触发标记的剧情ID（必须是END）")]
             public int endDialogueId;
 
-            [Tooltip("要设置的剧情标记名称")]
+            [Tooltip("要设置的标记名称")]
             public string flagName;
 
             [Tooltip("要设置的标记值")]
             public bool flagValue = true;
         }
 
-        [Header("对话结束时设置剧情标记")]
+        [Header("标记列表")]
         [SerializeField] private DialogueFlagEntry[] dialogueFlags;
 
         [Tooltip("开启：进入场景时自动播放开场/存档剧情；关闭：进入场景后直接探索。")]
@@ -60,10 +60,10 @@ namespace Game.Dialogue
         // 一段主线对话真正结束
         public event Action DialogueFinished;
 
-        /// <summary>当前是否正在显示对话（主线或临时调查信息）。</summary>
+        // 当前是否正在显示对话（主线或临时调查信息）。
         public bool IsDialogueVisible => dialogueUI != null && dialogueUI.gameObject.activeInHierarchy;
 
-        /// <summary>当前是否正在播放主线剧情或临时调查信息。</summary>
+        // 当前是否正在播放主线剧情或临时调查信息。
         public bool IsDialogueActive => !isFinished && IsDialogueVisible;
 
         private void Start()
@@ -170,10 +170,8 @@ namespace Game.Dialogue
                 isFinished = true;
         }
 
-        /// <summary>
-        /// 从指定 ID 开始主线剧情。主线进度仍按原有机制保存。
-        /// 可用于角色点击或调查信息结束后的剧情衔接。
-        /// </summary>
+        // 从指定 ID 开始主线剧情。主线进度仍按原有机制保存。
+        // 可用于角色点击或调查信息结束后的剧情衔接。
         public void StartMainDialogue(int dialogueId)
         {
             if (dataReader == null || dialogueUI == null)
@@ -201,15 +199,13 @@ namespace Game.Dialogue
             ShowCurrentDialogue();
         }
 
-        /// <summary>
-        /// 显示一段临时调查信息。nextStoryId 小于 0 表示结束后返回探索；
-        /// 否则在玩家读完并再次输入后，开始指定主线剧情。
-        /// 临时信息不会修改主线 currentId 或存档中的主线对话进度。
-        /// </summary>
+        // 显示一段临时调查信息。nextStoryId 小于 0 表示结束后返回探索；
+        // 否则在玩家读完并再次输入后，开始指定主线剧情。
+        // 临时信息不会修改主线 currentId 或存档中的主线对话进度。
         public void ShowTemporaryInfo(
             string content,
-            string characterName = "调查",
-            string position = "左",
+            string characterName,
+            string position,
             Sprite avatar = null,
             int nextStoryId = -1)
         {

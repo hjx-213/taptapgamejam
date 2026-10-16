@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c08e186fc7f55c9448ce1e41d6c59ea7, type: 3}
-  m_Name: ClueSlot_TestPhoto
+  m_Name: "\u795E\u79D8\u5973\u5B50"
   m_EditorClassIdentifier: 
-  clueId: clue_test_photo
-  clueTitle: "\u73B0\u573A\u53D1\u73B0\u7684\u7167\u7247"
-  clueContent: "\u7167\u7247\u80CC\u9762\u5199\u7740\u4E00\u4E32\u6A21\u7CCA\u7684\u6570\u5B57\u3002"
-  clueImage: {fileID: 21300000, guid: a8162eaafb9360c40966fb78cabaccc0, type: 3}
-  pageGroup: 1
+  clueId: shenminvzi
+  clueTitle: "\u795E\u79D8\u5973\u5B50"
+  clueContent: "\u5979\u597D\u50CF\u6709\u4EC0\u4E48\u5FC3\u4E8B\u3002"
+  clueImage: {fileID: 21300000, guid: e268725557142ac4f8d0e11606a82aaa, type: 3}
+  pageGroup: 0

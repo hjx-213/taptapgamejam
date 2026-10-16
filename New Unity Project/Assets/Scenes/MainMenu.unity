@@ -2360,6 +2360,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3777955860168707663, guid: 372bef4951290784289e8597d20e929d, type: 3}
+      propertyPath: bgmEntries.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3777955860168707663, guid: 372bef4951290784289e8597d20e929d, type: 3}
+      propertyPath: bgmEntries.Array.data[1].id
+      value: wakeup
+      objectReference: {fileID: 0}
+    - target: {fileID: 3777955860168707663, guid: 372bef4951290784289e8597d20e929d, type: 3}
+      propertyPath: bgmEntries.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 5fba20ddeca2df647b30c715d30141c1, type: 3}
     - target: {fileID: 3884678894066850087, guid: 372bef4951290784289e8597d20e929d, type: 3}
       propertyPath: bgmSource
       value: 

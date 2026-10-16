@@ -195,10 +195,10 @@ public class JournalUI : MonoBehaviour
         string clueB = secondSelectedClue.entryData.clueId;
 
         bool correctCombination =
-            (clueA == "clue_brother_letter" &&
-             clueB == "clue_test_photo") ||
-            (clueA == "clue_test_photo" &&
-             clueB == "clue_brother_letter");
+            (clueA == "suosilan" &&
+             clueB == "shenminvzi") ||
+            (clueA == "shenminvzi" &&
+             clueB == "suosilan");
 
         if (correctCombination)
         {
@@ -210,12 +210,12 @@ public class JournalUI : MonoBehaviour
             }
 
             JournalManager.Instance.UnlockClue(
-                "clue_date_connection"
+                "clue1"
             );
 
-            ShowMessage("发现了信件与照片之间的联系！");
+            ShowMessage("发现了新的线索！");
 
-            Debug.Log("推理成功：解锁 clue_date_connection。");
+            Debug.Log("推理成功：解锁 clue1。");
 
             // 刷新所有线索；新线索会显示在它所属的页面。
             if (clueViews != null)

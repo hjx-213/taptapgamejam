@@ -11,7 +11,7 @@ public class TestUnlockClueButton : MonoBehaviour
             return;
         }
 
-        JournalManager.Instance.UnlockClue("clue_brother_letter");
-        JournalManager.Instance.UnlockClue("clue_test_photo");
+        JournalManager.Instance.UnlockClue("suosilan");
+        JournalManager.Instance.UnlockClue("shenminvzi");
     }
 }

@@ -92,9 +92,6 @@ MonoBehaviour:
   _iconImage: {fileID: 1652270219647856950}
   _hoverColor: {r: 0.85, g: 0.85, b: 0.85, a: 1}
   _ruleManager: {fileID: 0}
-  OnClicked:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &1043909800254916215
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,9 +259,6 @@ MonoBehaviour:
   _iconImage: {fileID: 7335545888534597986}
   _hoverColor: {r: 0.85, g: 0.85, b: 0.85, a: 1}
   _ruleManager: {fileID: 0}
-  OnClicked:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &1154000037041248832
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,9 +351,6 @@ MonoBehaviour:
   _iconImage: {fileID: 8750780338158968897}
   _hoverColor: {r: 0.85, g: 0.85, b: 0.85, a: 1}
   _ruleManager: {fileID: 0}
-  OnClicked:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &1331914934651512747
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,8 +465,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.6, y: 19.7}
-  m_SizeDelta: {x: 100, y: 50}
+  m_AnchoredPosition: {x: 0, y: 30}
+  m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5646360934836970976
 CanvasRenderer:
@@ -505,7 +496,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u7269\u54C1\u540D\u79F0"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2333cda6790f3654fa696cbe4c2eb744, type: 2}
   m_sharedMaterial: {fileID: 1063245568653564394, guid: 2333cda6790f3654fa696cbe4c2eb744, type: 2}
@@ -532,8 +523,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 0
+  m_fontSizeBase: 0
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -762,7 +753,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 100}
+  m_SizeDelta: {x: 400, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8854386606832156671
 CanvasRenderer:
@@ -817,9 +808,9 @@ MonoBehaviour:
   _panel: {fileID: 6786719059531131424}
   _nameText: {fileID: 1061906308801088916}
   _descriptionText: {fileID: 6815185726933420029}
-  _offset: {x: 16, y: -16}
-  _nameFontSize: 20
-  _descriptionFontSize: 15
+  _offset: {x: 0, y: 150}
+  _nameFontSize: 40
+  _descriptionFontSize: 30
   _nameColor: {r: 1, g: 0.95, b: 0.7, a: 1}
   _descriptionColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
 --- !u!1 &4279639655301097509
@@ -914,9 +905,6 @@ MonoBehaviour:
   _iconImage: {fileID: 4515920840442042232}
   _hoverColor: {r: 0.85, g: 0.85, b: 0.85, a: 1}
   _ruleManager: {fileID: 0}
-  OnClicked:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &4531873788397052912
 GameObject:
   m_ObjectHideFlags: 0
@@ -954,7 +942,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 900, y: 0}
+  m_AnchoredPosition: {x: 750, y: 0}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5054467771771041919
@@ -1440,8 +1428,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.1, y: -8.5}
-  m_SizeDelta: {x: 100, y: 50}
+  m_AnchoredPosition: {x: 0, y: -30}
+  m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &489272560192125980
 CanvasRenderer:
@@ -1471,7 +1459,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u7269\u54C1\u63CF\u8FF0"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2333cda6790f3654fa696cbe4c2eb744, type: 2}
   m_sharedMaterial: {fileID: 1063245568653564394, guid: 2333cda6790f3654fa696cbe4c2eb744, type: 2}
@@ -1498,8 +1486,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15
-  m_fontSizeBase: 15
+  m_fontSize: 0
+  m_fontSizeBase: 0
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1632,6 +1620,3 @@ MonoBehaviour:
   _iconImage: {fileID: 8369490527808857903}
   _hoverColor: {r: 0.85, g: 0.85, b: 0.85, a: 1}
   _ruleManager: {fileID: 0}
-  OnClicked:
-    m_PersistentCalls:
-      m_Calls: []

@@ -5,10 +5,8 @@ using UnityEngine;
 
 namespace Game.Dialogue
 {
-    /// <summary>
-    /// 一条 CSV 剧情记录。
-    /// 对应：标志、ID、人物、位置、内容、跳转、BGM、SFX。
-    /// </summary>
+    // 一条 CSV 剧情记录。
+    // 对应：标志、ID、人物、位置、内容、跳转、BGM、SFX。
     [Serializable]
     public class DialogueRecord
     {
@@ -22,9 +20,7 @@ namespace Game.Dialogue
         public string sfx;
     }
 
-    /// <summary>
-    /// 读取并解析 CSV，不负责显示 UI 或控制剧情。
-    /// </summary>
+    // 读取并解析 CSV，不负责显示 UI 或控制剧情。
     public class DialogueDataReader : MonoBehaviour
     {
         [Header("CSV 剧情文件")]
@@ -257,7 +253,7 @@ namespace Game.Dialogue
             if (Load() && TryGetRecord(0, out DialogueRecord record))
             {
                 Debug.Log(
-                    $"测试成功：ID={record.id}，人物={record.character}，内容={record.content}");
+                    $"成功调取对话，第一句：ID={record.id}，人物={record.character}，内容={record.content}");
             }
         }
     }
