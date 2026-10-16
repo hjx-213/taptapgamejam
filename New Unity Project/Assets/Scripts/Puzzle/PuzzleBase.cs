@@ -33,7 +33,7 @@ namespace Game.Puzzle
 
         [Header("事件")]
         [Tooltip("解谜成功时触发。 UI 和 AudioManager 都接这里")]
-        public UnityEvent OnSolved;
+        public UnityEvent OnSolved = new UnityEvent();
 
         [Tooltip("玩家点击时触发。 UIManager 可挂上'显示谜题面板'")]
         public UnityEvent OnInteract;
