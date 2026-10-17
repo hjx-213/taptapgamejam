@@ -110,6 +110,11 @@ public class AudioManager : MonoBehaviour
     // 播放音效
     public void PlaySFX(AudioClip clip)
     {
+        PlaySFX(clip, 1f);
+    }
+
+    public void PlaySFX(AudioClip clip, float volumeScale)
+    {
         if (clip == null) return;
         if (sfxSource == null)
         {
@@ -117,7 +122,7 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        sfxSource.PlayOneShot(clip);
+        sfxSource.PlayOneShot(clip, volumeScale);
     }
 
     private IEnumerator FadeInBGM(AudioClip clip, float duration)

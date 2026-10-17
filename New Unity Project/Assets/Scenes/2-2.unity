@@ -769,7 +769,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1814267575}
-  - component: {fileID: 1814267574}
   - component: {fileID: 1814267573}
   - component: {fileID: 1814267576}
   m_Layer: 0
@@ -794,53 +793,6 @@ MonoBehaviour:
   state1Image: {fileID: 0}
   state2Image: {fileID: 0}
   duration: 0.8
---- !u!114 &1814267574
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1814267572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16d23cac7623abc42b282b1c745d1ef2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueManager: {fileID: 1086573631}
-  imageTransition: {fileID: 0}
-  rules:
-  - ruleName: "\u914D\u7F6E\u548C\u89E3\u4E4B\u9152"
-    requirements:
-    - sourceItemId: shui
-      targetId: taotuhu
-      requiredCount: 1
-    - sourceItemId: jiu
-      targetId: taotuhu
-      requiredCount: 2
-    - sourceItemId: jiu
-      targetId: taotuhu
-      requiredCount: 2
-    playDialogue: 0
-    dialogueId: 0
-    changeImage: 0
-    triggerDialogueId: 0
-    grantItem: 0
-    rewardItemId: 
-    imageTransitionDuration: 0
-    totalRequiredCount: 3
-  - ruleName: "\u6E05\u6D17\u94F6\u89D2\u676F"
-    requirements:
-    - sourceItemId: daixueyinjiaobei
-      targetId: shuicao
-      requiredCount: 1
-    playDialogue: 0
-    dialogueId: 0
-    changeImage: 0
-    triggerDialogueId: 0
-    grantItem: 0
-    rewardItemId: 
-    imageTransitionDuration: 0
-    totalRequiredCount: 3
 --- !u!4 &1814267575
 Transform:
   m_ObjectHideFlags: 0
@@ -1073,23 +1025,23 @@ PrefabInstance:
     - target: {fileID: 2337007210456117970, guid: ac37a78312d221d44b09202a2c9fea1b, type: 3}
       propertyPath: _ruleManager
       value: 
-      objectReference: {fileID: 1814267574}
+      objectReference: {fileID: 0}
     - target: {fileID: 3546863004132439745, guid: ac37a78312d221d44b09202a2c9fea1b, type: 3}
       propertyPath: _ruleManager
       value: 
-      objectReference: {fileID: 1814267574}
+      objectReference: {fileID: 0}
     - target: {fileID: 3552322005273868194, guid: ac37a78312d221d44b09202a2c9fea1b, type: 3}
       propertyPath: _ruleManager
       value: 
-      objectReference: {fileID: 1814267574}
+      objectReference: {fileID: 0}
     - target: {fileID: 3607255315625851564, guid: ac37a78312d221d44b09202a2c9fea1b, type: 3}
       propertyPath: _ruleManager
       value: 
-      objectReference: {fileID: 1814267574}
+      objectReference: {fileID: 0}
     - target: {fileID: 4010157997813249233, guid: ac37a78312d221d44b09202a2c9fea1b, type: 3}
       propertyPath: _ruleManager
       value: 
-      objectReference: {fileID: 1814267574}
+      objectReference: {fileID: 0}
     - target: {fileID: 5049190143774904156, guid: ac37a78312d221d44b09202a2c9fea1b, type: 3}
       propertyPath: m_Name
       value: BackpackUI

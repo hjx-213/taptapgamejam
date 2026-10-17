@@ -391,7 +391,7 @@ GameObject:
   - component: {fileID: 354562845}
   - component: {fileID: 354562850}
   m_Layer: 0
-  m_Name: "\u5E26\u8840\u94F6\u89D2\u676F\uFF08\u62FE\u53D6\u540E\u53EF\u62D6\u62FD\uFF09"
+  m_Name: "\u5E26\u8840\u94F6\u89D2\u676F"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -425,12 +425,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemId: daixueyinjiaobei
-  _prompt: "\u62FE\u53D6 "
   _pickupSound: {fileID: 0}
   OnPickedUp:
     m_PersistentCalls:
       m_Calls: []
-  _keepVisibleAfterPickup: 0
 --- !u!61 &354562847
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -556,7 +554,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemId: daixueyinjiaobei
-  _consumeOnDrop: 0
   OnDropped:
     m_PersistentCalls:
       m_Calls: []
@@ -1001,6 +998,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2337007210456117970, guid: ac37a78312d221d44b09202a2c9fea1b, type: 3}
+      propertyPath: _ruleManager
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546863004132439745, guid: ac37a78312d221d44b09202a2c9fea1b, type: 3}
+      propertyPath: _ruleManager
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3552322005273868194, guid: ac37a78312d221d44b09202a2c9fea1b, type: 3}
+      propertyPath: _ruleManager
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3607255315625851564, guid: ac37a78312d221d44b09202a2c9fea1b, type: 3}
+      propertyPath: _ruleManager
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4010157997813249233, guid: ac37a78312d221d44b09202a2c9fea1b, type: 3}
+      propertyPath: _ruleManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5049190143774904156, guid: ac37a78312d221d44b09202a2c9fea1b, type: 3}
       propertyPath: m_Name
       value: BackpackUI
@@ -1146,18 +1163,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionType: 1
-  promptText: "\u5144\u957F\u9057\u8A00"
-  canInteract: 1
   requireFlag: 0
   requiredFlagName: 
   requiredFlagValue: 0
-  setFlagOnInteract: 1
-  flagNameToSet: brother_death
-  flagValueToSet: 1
+  inspectionFlagName: 
+  inspectionFlagValue: 1
   infoText: 
-  displayName: 
-  position: "\u5DE6"
-  avatar: {fileID: 0}
   storyDialogueId: 0
 --- !u!61 &1314576267
 BoxCollider2D:

@@ -327,7 +327,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 505326255}
-  - component: {fileID: 505326254}
   - component: {fileID: 505326253}
   - component: {fileID: 505326252}
   m_Layer: 0
@@ -349,7 +348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f508bf15fe73ab94098a5cbde31bb90d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}
+  mainCamera: {fileID: 1552363329}
 --- !u!114 &505326253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,37 +364,6 @@ MonoBehaviour:
   state1Image: {fileID: 0}
   state2Image: {fileID: 0}
   duration: 0.8
---- !u!114 &505326254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 505326251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16d23cac7623abc42b282b1c745d1ef2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueManager: {fileID: 1086573631}
-  imageTransition: {fileID: 0}
-  rules:
-  - ruleName: "\u914D\u7F6E\u548C\u89E3\u4E4B\u9152"
-    requirements:
-    - sourceItemId: shui
-      targetId: taotuhu
-      requiredCount: 1
-    - sourceItemId: jiu
-      targetId: taotuhu
-      requiredCount: 2
-    playDialogue: 0
-    dialogueId: 0
-    changeImage: 0
-    triggerDialogueId: 0
-    grantItem: 1
-    rewardItemId: hejiezhijiu
-    imageTransitionDuration: 0
-    totalRequiredCount: 3
 --- !u!4 &505326255
 Transform:
   m_ObjectHideFlags: 0
@@ -764,12 +732,12 @@ MonoBehaviour:
   dataReader: {fileID: 127110019}
   dialogueUI: {fileID: 1781647741}
   avatarEntries:
-  - characterName: A
+  - characterName: "\u7EB3\u83F2"
     expression: 
-    avatar: {fileID: 21300000, guid: 5f938d46237b92e4992e28f76b4e8c57, type: 3}
-  - characterName: A
-    expression: "\u60CA\u5947"
-    avatar: {fileID: 21300000, guid: 522b890a2fa003e4ab6eea3f73f3f344, type: 3}
+    avatar: {fileID: 21300000, guid: 865c4c89e1625e545a7dc9a4fba0d395, type: 3}
+  - characterName: "\u7D22\u65AF\u5170"
+    expression: 
+    avatar: {fileID: 21300000, guid: 0b1bb5cd53dc5c0498cd2825f9450f76, type: 3}
   - characterName: B
     expression: 
     avatar: {fileID: 21300000, guid: a8162eaafb9360c40966fb78cabaccc0, type: 3}
@@ -844,7 +812,7 @@ MonoBehaviour:
   _acceptedItemIds:
   - shui
   - jiu
-  _ruleManager: {fileID: 505326254}
+  _ruleManager: {fileID: 0}
   OnItemReceived:
     m_PersistentCalls:
       m_Calls: []

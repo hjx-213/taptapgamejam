@@ -6,7 +6,7 @@ using Game.Items.DragDrop;
 
 namespace Game.UI
 {
-    /// 背包槽位：显示道具、悬停提示，并支持拖拽到场景目标。
+    // 背包槽位：显示道具、悬停提示，并支持拖拽到场景目标。
     [RequireComponent(typeof(Image))]
     public class InventorySlot : MonoBehaviour,
         IPointerEnterHandler,

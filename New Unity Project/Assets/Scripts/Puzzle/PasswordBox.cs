@@ -20,18 +20,28 @@ namespace Game.Sample
 
         private string _inputCode = "";
         [SerializeField] private GameObject _errorText;
+        [SerializeField] private GameObject _passwordPanel;
 
         [Header("UI 回调（给 UIManager 用）")]
         [Tooltip("UI 输入完成时调用，传入玩家输入的密码")]
         public UnityEvent<string> OnCodeSubmitted;
 
+        private void OpenPasswordPanel()
+        {
+            if (_passwordPanel != null)
+                _passwordPanel.SetActive(true);
+        }
+
+        private void ClosePasswordPanel()
+        {
+            if (_passwordPanel != null)
+                _passwordPanel.SetActive(false);
+        }
+
         protected override void OnPlayerInteract(GameObject player)
         {
-            // 玩家点击时，触发 OnInteract 事件（UIManager 监听到后会显示密码输入面板）
-            // UIManager 在收到显示请求后，调 OnCodeSubmitted(code) 传回玩家输入
             Debug.Log($"[{_puzzleName}] 等待玩家输入密码…");
-
-            UIManager.Instance.OpenPanel("PasswordPanel");
+            OpenPasswordPanel();
         }
 
         /// <summary>
@@ -55,11 +65,7 @@ namespace Game.Sample
                     _errorText.SetActive(false);
 
                 Solve();
-
-                if (UIManager.Instance != null)
-                {
-                    UIManager.Instance.ClosePanel("PasswordPanel");
-                }
+                ClosePasswordPanel();
             }
             else
             {
