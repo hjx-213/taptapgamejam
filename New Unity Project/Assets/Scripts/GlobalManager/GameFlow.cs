@@ -3,15 +3,9 @@ using UnityEngine.Events;
 
 namespace Game.Core
 {
-    /// <summary>
-    /// 游戏整体流程主控：管理 Playing/Won/Lost 状态切换。
-    /// 所有"游戏胜利后该干嘛"的逻辑（弹胜利 UI、播放胜利 BGM）
-    /// 都通过订阅 OnStateChanged 事件来响应，不需要直接引用 GameFlow。
-    ///
-    /// 用法：
-    ///   - 场景里挂一个空对象 GameManager，加 GameFlow 组件。
-    ///   - PuzzleManager 在所有谜题解完后会自动调 OnAllPuzzlesSolved()。
-    /// </summary>
+    // 游戏整体流程主控：管理 Playing/Won/Lost 状态切换。
+    // 所有"游戏胜利后该干嘛"的逻辑（弹胜利 UI、播放胜利 BGM）
+    // 都通过订阅 OnStateChanged 事件来响应，不需要直接引用 GameFlow。
     [System.Serializable]
     public class GameStateEvent : UnityEvent<GameState> { }
 
@@ -22,10 +16,10 @@ namespace Game.Core
         [Tooltip("游戏开始时的初始状态")]
         [SerializeField] private GameState _initialState = GameState.Playing;
 
-        /// <summary>当前游戏状态</summary>
+        // 当前游戏状态
         public GameState State { get; private set; }
 
-        /// <summary>状态变化时触发（参数：旧→新）</summary>
+        // 状态变化时触发（参数：旧→新）
         public GameStateEvent OnStateChanged;
 
         private void Awake()
@@ -45,9 +39,7 @@ namespace Game.Core
             if (Instance == this) Instance = null;
         }
 
-        /// <summary>
-        /// 由 PuzzleManager 在所有谜题解完后调用。
-        /// </summary>
+        // 由 PuzzleManager 在所有谜题解完后调用。
         public void OnAllPuzzlesSolved()
         {
             if (State != GameState.Playing) return;
@@ -55,9 +47,7 @@ namespace Game.Core
             Debug.Log("[GameFlow] 🎉 YOU WIN!");
         }
 
-        /// <summary>
-        /// 外部强制切换状态（如未来要实现"游戏失败"）。
-        /// </summary>
+        // 外部强制切换状态（如未来要实现"游戏失败"）。
         public void SetState(GameState newState)
         {
             if (State == newState) return;

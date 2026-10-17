@@ -1,24 +1,21 @@
-
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Game.Items.DragDrop
 {
-    /// <summary>
-    /// 拖拽接收目标。
-    /// 保留原有接收筛选和 OnItemReceived 事件，并通知规则管理器。
-    /// </summary>
+    // 拖拽接收目标。
+    // 保留原有接收筛选和 OnItemReceived 事件，并通知规则管理器。
     [RequireComponent(typeof(Collider2D))]
     public class DropZone : MonoBehaviour
     {
-        [Header("目标 ID")]
-        [Tooltip("规则中用于识别这个目标的唯一 ID")]
+        [Header("该物品 ID")]
+        [Tooltip("规则中用于识别这个物品的唯一 ID")]
         [SerializeField] private string _targetId;
 
         public string TargetId => _targetId;
 
-        [Header("接收道具 ID 列表")]
-        [Tooltip("可接收的道具 ID，留空 = 接收任何道具")]
+        [Header("可接收物品列表")]
+        [Tooltip("可接收的物品 ID，留空 = 接收任何道具")]
         [SerializeField] private string[] _acceptedItemIds;
 
         [Header("规则管理器")]
@@ -45,7 +42,7 @@ namespace Game.Items.DragDrop
             return false;
         }
 
-        /// <summary>由 DraggableItem 在道具成功拖入时调用。</summary>
+        // 由 DraggableItem 在道具成功拖入时调用。
         public void OnItemDropped(DraggableItem item)
         {
             if (item == null)
@@ -54,7 +51,7 @@ namespace Game.Items.DragDrop
             // 保留原有事件，避免影响已有谜题逻辑。
             OnItemReceived?.Invoke(item);
 
-            // 通知规则管理器：场景物品成功拖到了这个目标。
+            // 通知当前场景绑定的规则管理器：场景物品成功拖到了这个目标。
             if (_ruleManager != null)
             {
                 _ruleManager.RegisterSuccessfulDrop(

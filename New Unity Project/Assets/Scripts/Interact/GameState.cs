@@ -1,9 +1,7 @@
 namespace Game.Core
 {
-    /// <summary>
-    /// 游戏全局状态枚举。
-    /// 监听 GameFlow.OnStateChanged 时会拿到这个值。
-    /// </summary>
+    // 游戏全局状态枚举。
+    // 监听 GameFlow.OnStateChanged 时会拿到这个值。
     public enum GameState
     {
         Playing,   // 游戏中

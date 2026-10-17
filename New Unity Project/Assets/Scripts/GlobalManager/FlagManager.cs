@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using System;
 using System.Collections.Generic;
@@ -37,7 +36,7 @@ public class FlagManager : MonoBehaviour
 
         flags[flagName] = value;
 
-        // 修改剧情标记后，同步到当前存档
+        // 修改标记后，同步到当前存档
         if (SaveManager.Instance != null)
         {
             SaveManager.Instance.SaveStoryFlags(GetAllFlags());
@@ -53,7 +52,7 @@ public class FlagManager : MonoBehaviour
             && value;
     }
 
-    // 导出所有剧情标记
+    // 导出所有标记
     public List<FlagEntry> GetAllFlags()
     {
         List<FlagEntry> result = new List<FlagEntry>();
@@ -70,7 +69,7 @@ public class FlagManager : MonoBehaviour
         return result;
     }
 
-    // 从存档恢复剧情标记，不触发自动保存
+    // 从存档恢复标记，不触发自动保存
     public void RestoreFlags(List<FlagEntry> savedFlags)
     {
         flags.Clear();
@@ -90,7 +89,7 @@ public class FlagManager : MonoBehaviour
         Debug.Log($"[FlagManager] 已恢复 {flags.Count} 个剧情标记。");
     }
 
-    // 新游戏使用：清空所有剧情标记
+    // 新游戏使用：清空所有标记
     public void ResetFlags()
     {
         flags.Clear();

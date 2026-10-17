@@ -4,18 +4,13 @@ using UnityEngine.EventSystems;
 
 namespace Game.Items.DragDrop
 {
-    /// <summary>
-    /// 场景内可拖拽道具（不入背包，只在场景里拖）。
-    ///
-    /// 用法：
-    ///   - 挂在任何带 Collider2D 的物体上（石头、银角杯、酒瓶等）
-    ///   - Inspector 设置 ItemId（道具标识符）
-    ///   - 鼠标按下开始拖拽，松开时检测下方 DropZone
-    ///   - 命中匹配的 DropZone 触发 OnDropped 事件；未命中自动归位
-    ///
-    /// 注意：本组件依赖 EventSystem（场景里要有 EventSystem，相机要有 Physics2DRaycaster）
-    /// 也就是说，DraggableItem 走 EventSystem 路径，和 PlayerInteraction 的 Physics2D.Raycast 互不干扰。
-    /// </summary>
+    // 场景内可拖拽道具（不入背包，只在场景里拖）
+    // 用法：
+    //   - 挂在任何带 Box Collider 2D 的物体上
+    //   - Inspector 设置 ItemId（道具标识符）
+    //   - 鼠标按下开始拖拽，松开时检测下方 DropZone
+    //   - 命中匹配的 DropZone 触发 OnDropped 事件；未命中自动归位
+    // 注意：本组件依赖 EventSystem（场景里要有 EventSystem，相机要有 Physics 2D Raycaster）
     [RequireComponent(typeof(Collider2D))]
     public class DraggableItem : MonoBehaviour,
         IPointerDownHandler, IDragHandler, IPointerUpHandler
@@ -23,12 +18,6 @@ namespace Game.Items.DragDrop
         [Header("道具")]
         [Tooltip("道具 ID（用于匹配 DropZone 的 AcceptedItemIds）")]
         [SerializeField] private string _itemId;
-
-        [Header("拖拽行为")]
-        [Tooltip("成功放到匹配的 DropZone 后是否消耗。\n" +
-                 "true = 消耗品（用完消失，调酒药材/纸条约章）\n" +
-                 "false = 工具（用完归位，钥匙/撬棍）")]
-        [SerializeField] private bool _consumeOnDrop;
 
         [Header("事件")]
         [Tooltip("拖到匹配的 DropZone 上时触发，参数是接收方 DropZone")]
@@ -82,7 +71,7 @@ namespace Game.Items.DragDrop
                     zone.OnItemDropped(this);
                     OnDropped?.Invoke(zone);
 
-                    // 场景物品拖拽成功后始终归位，不因消耗设置而消失
+                    // 默认行为：拖拽成功后回到原位，不因消耗设置而消失
                     transform.position = _originalPosition;
                     return;
                 }
@@ -93,9 +82,7 @@ namespace Game.Items.DragDrop
             OnDropCancelled?.Invoke();
         }
 
-        /// <summary>
-        /// 重置拖拽道具（用于重玩/编辑器测试）。会重新激活并归位。
-        /// </summary>
+        // 重置拖拽道具。会重新激活并归位
         public void ResetItem()
         {
             gameObject.SetActive(true);

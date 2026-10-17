@@ -883,7 +883,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1506475095}
-  - component: {fileID: 1506475094}
   - component: {fileID: 1506475093}
   - component: {fileID: 1506475092}
   m_Layer: 0
@@ -921,50 +920,6 @@ MonoBehaviour:
   state1Image: {fileID: 0}
   state2Image: {fileID: 0}
   duration: 0.8
---- !u!114 &1506475094
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1506475091}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16d23cac7623abc42b282b1c745d1ef2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueManager: {fileID: 1086573631}
-  imageTransition: {fileID: 0}
-  rules:
-  - ruleName: "\u914D\u7F6E\u548C\u89E3\u4E4B\u9152"
-    requirements:
-    - sourceItemId: shui
-      targetId: taotuhu
-      requiredCount: 1
-    - sourceItemId: jiu
-      targetId: taotuhu
-      requiredCount: 2
-    playDialogue: 0
-    dialogueId: 0
-    changeImage: 0
-    triggerDialogueId: 0
-    grantItem: 0
-    rewardItemId: 
-    imageTransitionDuration: 0
-    totalRequiredCount: 3
-  - ruleName: "\u6E05\u6D17\u94F6\u89D2\u676F"
-    requirements:
-    - sourceItemId: daixueyinjiaobei
-      targetId: shuicao
-      requiredCount: 1
-    playDialogue: 0
-    dialogueId: 0
-    changeImage: 0
-    triggerDialogueId: 0
-    grantItem: 0
-    rewardItemId: 
-    imageTransitionDuration: 0
-    totalRequiredCount: 3
 --- !u!4 &1506475095
 Transform:
   m_ObjectHideFlags: 0
@@ -1072,63 +1027,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1814858397
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1681695370983139779, guid: 372bef4951290784289e8597d20e929d, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.71915704
-      objectReference: {fileID: 0}
-    - target: {fileID: 1681695370983139779, guid: 372bef4951290784289e8597d20e929d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.9739941
-      objectReference: {fileID: 0}
-    - target: {fileID: 1681695370983139779, guid: 372bef4951290784289e8597d20e929d, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 3.6677992
-      objectReference: {fileID: 0}
-    - target: {fileID: 1681695370983139779, guid: 372bef4951290784289e8597d20e929d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1681695370983139779, guid: 372bef4951290784289e8597d20e929d, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1681695370983139779, guid: 372bef4951290784289e8597d20e929d, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1681695370983139779, guid: 372bef4951290784289e8597d20e929d, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1681695370983139779, guid: 372bef4951290784289e8597d20e929d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1681695370983139779, guid: 372bef4951290784289e8597d20e929d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1681695370983139779, guid: 372bef4951290784289e8597d20e929d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4773148941115931885, guid: 372bef4951290784289e8597d20e929d, type: 3}
-      propertyPath: m_Name
-      value: GlobalManager
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 372bef4951290784289e8597d20e929d, type: 3}
 --- !u!1001 &1918485543
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1283,12 +1181,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemId: qiaogun
-  _prompt: "\u62FE\u53D6 "
-  _pickupSound: {fileID: 0}
+  _pickupSound: {fileID: 8300000, guid: a4eb6b9298c223045b54e87f0662696d, type: 3}
   OnPickedUp:
     m_PersistentCalls:
       m_Calls: []
-  _keepVisibleAfterPickup: 0
 --- !u!61 &2031100001
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1532,4 +1428,3 @@ SceneRoots:
   - {fileID: 1086573632}
   - {fileID: 1506475095}
   - {fileID: 1025112529}
-  - {fileID: 1814858397}
