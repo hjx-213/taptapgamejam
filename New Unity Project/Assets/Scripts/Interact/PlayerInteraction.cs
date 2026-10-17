@@ -25,12 +25,16 @@ public class PlayerInteraction : MonoBehaviour
 
     private void TryInteract()
     {
-        // 对话显示期间，不允许点击场景物品。
-        // 对话推进仍由 DialogueManager 负责。
+        // 对话或手记显示期间，不允许点击场景物品。
+        // 对话推进/手记操作由对应 UI 自己处理。
         Game.Dialogue.DialogueManager dialogueManager =
             FindObjectOfType<Game.Dialogue.DialogueManager>();
 
         if (dialogueManager != null && dialogueManager.IsDialogueActive)
+            return;
+
+        JournalUI journalUI = FindObjectOfType<JournalUI>();
+        if (journalUI != null && journalUI.IsOpen)
             return;
 
         if (mainCamera == null)
