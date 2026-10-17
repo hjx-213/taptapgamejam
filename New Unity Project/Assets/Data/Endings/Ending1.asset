@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   endingFlag: ending1
   endingTitle: BAD END
-  endingName: "\u4F60\u62D2\u7EDD\u4E86\u4E00\u5207\u7684\u53D1\u751F"
+  endingName: "\u6C38\u52AB\u4E4B\u89D2"
   endingCG: {fileID: 21300000, guid: a74ff495922531b428e0b870a609c1ff, type: 3}

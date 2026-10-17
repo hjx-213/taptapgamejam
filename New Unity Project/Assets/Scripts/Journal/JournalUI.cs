@@ -1,11 +1,14 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class JournalUI : MonoBehaviour
 {
     [Header("手记界面")]
     public GameObject journalPanel;
     public GameObject darkOverlay;
+
+    public bool IsOpen => journalPanel != null && journalPanel.activeInHierarchy;
 
     [Header("线索卡片")]
     public JournalClueView[] clueViews;
@@ -33,10 +36,25 @@ public class JournalUI : MonoBehaviour
         currentPageGroup = 0;
 
         if (darkOverlay != null)
+        {
             darkOverlay.SetActive(true);
+            Image overlayImage = darkOverlay.GetComponent<Image>();
+            if (overlayImage != null)
+                overlayImage.raycastTarget = true;
+        }
 
         if (journalPanel != null)
+        {
             journalPanel.SetActive(true);
+
+            CanvasGroup panelGroup = journalPanel.GetComponent<CanvasGroup>();
+            if (panelGroup != null)
+                panelGroup.blocksRaycasts = true;
+
+            Image panelImage = journalPanel.GetComponent<Image>();
+            if (panelImage != null)
+                panelImage.raycastTarget = true;
+        }
 
         ShowMessage("");
         UpdatePageDisplay();
@@ -45,10 +63,25 @@ public class JournalUI : MonoBehaviour
     public void CloseJournal()
     {
         if (journalPanel != null)
+        {
             journalPanel.SetActive(false);
 
+            CanvasGroup panelGroup = journalPanel.GetComponent<CanvasGroup>();
+            if (panelGroup != null)
+                panelGroup.blocksRaycasts = false;
+
+            Image panelImage = journalPanel.GetComponent<Image>();
+            if (panelImage != null)
+                panelImage.raycastTarget = false;
+        }
+
         if (darkOverlay != null)
+        {
             darkOverlay.SetActive(false);
+            Image overlayImage = darkOverlay.GetComponent<Image>();
+            if (overlayImage != null)
+                overlayImage.raycastTarget = false;
+        }
     }
 
     public void NextPage()
