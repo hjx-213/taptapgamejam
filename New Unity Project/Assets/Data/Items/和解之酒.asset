@@ -15,6 +15,4 @@ MonoBehaviour:
   itemId: hejiezhijiu
   itemName: "\u548C\u89E3\u4E4B\u9152"
   description: "\u91CD\u8981\u7269\u54C1\u3002"
-  icon: {fileID: 21300000, guid: 75c2743d7ee5b1641af13737f117e26d, type: 3}
-  type: 0
-  worldPrefab: {fileID: 0}
+  icon: {fileID: 21300000, guid: d2becd2ff2a64444c9e2e10fcfb86353, type: 3}

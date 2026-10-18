@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: jiu
   itemName: "\u9152"
-  description: 
-  icon: {fileID: 21300000, guid: 522b890a2fa003e4ab6eea3f73f3f344, type: 3}
+  description: "\u70C8\u6027\u5927\u9EA6\u9152"
+  icon: {fileID: 21300000, guid: 428ec6c5629c6684e9a14d1d89151e85, type: 3}
