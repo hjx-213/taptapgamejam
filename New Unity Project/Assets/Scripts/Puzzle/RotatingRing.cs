@@ -22,6 +22,7 @@ namespace Game.Puzzle
 
         public string PromptText => (parent != null && parent.IsSolved) ? "" : prompt;
         public bool CanInteract => parent != null && !parent.IsSolved;
+        public Transform MarkerTransform => marker;
 
         /// <summary>由 RotatingRingPuzzle.AutoCreateRings 调用，把 parent/marker 注入进来</summary>
         public void Initialize(RotatingRingPuzzle parentPuzzle, Transform markerTransform)

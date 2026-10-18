@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using Game.Audio;
 
 namespace Game.Dialogue
@@ -125,11 +126,16 @@ namespace Game.Dialogue
             if (!spacePressed && !mousePressed)
                 return;
 
-            // 鼠标点击 UI 不推进对话，避免点选项/按钮时同时推进剧情。
+            // 普通情况下，鼠标点击 UI 不推进对话，避免点选项/按钮时同时推进剧情。
+            // 水槽特写打开时，特写遮罩和对话遮挡层覆盖整个屏幕；允许点击这些
+            // 纯视觉区域推进对话，但仍拦截按钮与背包槽位上的点击/拖拽。
             if (mousePressed &&
                 EventSystem.current != null &&
                 EventSystem.current.IsPointerOverGameObject())
-                return;
+            {
+                if (!SinkCloseupInteractable.IsAnyOpen || IsPointerOverInteractiveControl())
+                    return;
+            }
 
             // 临时调查信息使用同一套打字机和输入规则，但不读写 currentId。
             if (isTemporaryInfo)
@@ -168,6 +174,27 @@ namespace Game.Dialogue
                 StartMainDialogue(nextStoryId);
             else
                 isFinished = true;
+        }
+
+        private bool IsPointerOverInteractiveControl()
+        {
+            var pointer = new PointerEventData(EventSystem.current)
+            {
+                position = Input.mousePosition
+            };
+            var hits = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(pointer, hits);
+
+            foreach (RaycastResult hit in hits)
+            {
+                if (hit.gameObject.GetComponentInParent<Button>() != null ||
+                    hit.gameObject.GetComponentInParent<Game.UI.InventorySlot>() != null)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         // 从指定 ID 开始主线剧情。主线进度仍按原有机制保存。

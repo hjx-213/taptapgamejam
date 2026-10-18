@@ -11,6 +11,10 @@ namespace Game.Items.DragDrop
     {
         [Header("规则反馈 UI")]
         [SerializeField] private TMP_Text feedbackText;
+        [Tooltip("拖拽结果文字显示的秒数；设为 0 则不自动清除")]
+        [SerializeField, Min(0f)] private float feedbackDisplayDuration = 2f;
+
+        private Coroutine feedbackClearCoroutine;
 
         [Serializable]
         public class CountRequirement
@@ -100,8 +104,27 @@ namespace Game.Items.DragDrop
             if (feedbackText == null)
                 return;
 
+            if (feedbackClearCoroutine != null)
+            {
+                StopCoroutine(feedbackClearCoroutine);
+                feedbackClearCoroutine = null;
+            }
+
             feedbackText.text = message;
             feedbackText.color = color;
+
+            if (feedbackDisplayDuration > 0f && !string.IsNullOrEmpty(message))
+                feedbackClearCoroutine = StartCoroutine(ClearFeedbackAfterDelay());
+        }
+
+        private System.Collections.IEnumerator ClearFeedbackAfterDelay()
+        {
+            yield return new WaitForSecondsRealtime(feedbackDisplayDuration);
+
+            if (feedbackText != null)
+                feedbackText.text = "";
+
+            feedbackClearCoroutine = null;
         }
 
         private void ShowRuleResult(bool success, string ruleName)

@@ -160,6 +160,7 @@ MonoBehaviour:
   requiredFlagValue: 1
   inspectionFlagName: 
   inspectionFlagValue: 1
+  clueIdToUnlock: 
   infoText: "\u5927\u4F19\u90FD\u5306\u5FD9\u53C8\u6C89\u9ED8\uFF0C\u5E76\u4E0D\u662F\u8BE2\u95EE\u7684\u597D\u65F6\u673A\u3002"
   storyDialogueId: -1
 --- !u!114 &56913269
@@ -283,7 +284,7 @@ Transform:
   m_GameObject: {fileID: 56913267}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7, y: 3, z: 0}
+  m_LocalPosition: {x: -1, y: -1, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -372,6 +373,7 @@ MonoBehaviour:
   requiredFlagValue: 1
   inspectionFlagName: 
   inspectionFlagValue: 1
+  clueIdToUnlock: 
   infoText: "\u5927\u4F19\u90FD\u5306\u5FD9\u53C8\u6C89\u9ED8\uFF0C\u5E76\u4E0D\u662F\u8BE2\u95EE\u7684\u597D\u65F6\u673A\u3002"
   storyDialogueId: -1
 --- !u!114 &866045402
@@ -495,7 +497,7 @@ Transform:
   m_GameObject: {fileID: 866045400}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7, y: 3, z: 0}
+  m_LocalPosition: {x: -4, y: -1, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -584,6 +586,7 @@ MonoBehaviour:
   requiredFlagValue: 1
   inspectionFlagName: 
   inspectionFlagValue: 1
+  clueIdToUnlock: 
   infoText: "\u8FD8\u6CA1\u5230\u80FD\u8FDB\u53BB\u7684\u65F6\u5019\u3002"
   storyDialogueId: -1
 --- !u!114 &933452666
@@ -707,7 +710,7 @@ Transform:
   m_GameObject: {fileID: 933452664}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7, y: 3, z: 0}
+  m_LocalPosition: {x: 4, y: 3, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -727,7 +730,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4218479042309589471, guid: 5749ba0f04c6eb546a737d01a6e55ab9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8213068856899031598, guid: 5749ba0f04c6eb546a737d01a6e55ab9, type: 3}
       propertyPath: m_Pivot.x
@@ -936,6 +939,7 @@ MonoBehaviour:
   requiredFlagValue: 1
   inspectionFlagName: 
   inspectionFlagValue: 1
+  clueIdToUnlock: shibananchen
   infoText: "\u4F3C\u4E4E\u6709\u4E00\u4E9B\u6697\u6C89\u6EF4\u75D5\u3002"
   storyDialogueId: -1
 --- !u!114 &1050415822
@@ -1059,7 +1063,7 @@ Transform:
   m_GameObject: {fileID: 1050415820}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7, y: 3, z: 0}
+  m_LocalPosition: {x: -1, y: 3, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1103,6 +1107,7 @@ MonoBehaviour:
   requiredFlagValue: 1
   inspectionFlagName: 
   inspectionFlagValue: 1
+  clueIdToUnlock: xiedouxinwen
   infoText: 
   storyDialogueId: -1
 --- !u!114 &1075793249
@@ -1226,7 +1231,7 @@ Transform:
   m_GameObject: {fileID: 1075793247}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7, y: 3, z: 0}
+  m_LocalPosition: {x: -4, y: 3, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1951,6 +1956,7 @@ MonoBehaviour:
   requiredFlagValue: 1
   inspectionFlagName: 
   inspectionFlagValue: 1
+  clueIdToUnlock: peidaiduandao
   infoText: "\u6751\u4E2D\u6709\u8BB8\u591A\u4EBA\u90FD\u4F69\u6234\u7740\u8FD9\u6837\u7684\u77ED\u5200\u3002"
   storyDialogueId: -1
 --- !u!114 &1613803484
@@ -2118,6 +2124,7 @@ MonoBehaviour:
   requiredFlagValue: 1
   inspectionFlagName: 
   inspectionFlagValue: 1
+  clueIdToUnlock: 
   infoText: "\u5927\u4F19\u90FD\u5306\u5FD9\u53C8\u6C89\u9ED8\uFF0C\u5E76\u4E0D\u662F\u8BE2\u95EE\u7684\u597D\u65F6\u673A\u3002"
   storyDialogueId: -1
 --- !u!114 &1833612055
@@ -2241,7 +2248,7 @@ Transform:
   m_GameObject: {fileID: 1833612053}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7, y: 3, z: 0}
+  m_LocalPosition: {x: -7, y: -1, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []

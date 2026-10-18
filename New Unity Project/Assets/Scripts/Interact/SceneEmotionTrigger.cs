@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using Game.Core.Interaction;
 using Game.Core.Emotion;
+using Game.UI;
 
 namespace Game.Core.Interaction
 {
@@ -12,10 +13,6 @@ namespace Game.Core.Interaction
         [Tooltip("交互提示文本")]
         [SerializeField] private string promptText;
 
-        [Header("特效")]
-        [Tooltip("中心向外扩散的特效对象（通常是 Particle System）")]
-        [SerializeField] private GameObject burstEffect;
-
         [Header("情绪条显示")]
         [Tooltip("情绪条根节点，默认隐藏，触发后显示")]
         [SerializeField] private GameObject emotionBarRoot;
@@ -24,8 +21,11 @@ namespace Game.Core.Interaction
         [Tooltip("触发后增加多少情绪值")]
         [SerializeField] private float emotionGain = 25f;
 
-        [Tooltip("特效播放时长")]
-        [SerializeField] private float burstDuration = 0.8f;
+        [Tooltip("本次情绪条填充颜色，可为每个触发物单独设置")]
+        [SerializeField] private Color emotionBarColor = new Color(1f, 0.35f, 0.35f, 1f);
+
+        [Tooltip("情绪条显示多久后自动隐藏（秒）")]
+        [Min(0f)] [SerializeField] private float emotionBarDisplayDuration = 3f;
 
         [Tooltip("是否只允许触发一次")]
         [SerializeField] private bool oneTimeOnly = true;
@@ -46,14 +46,16 @@ namespace Game.Core.Interaction
 
         private IEnumerator TriggerEmotionSequence()
         {
-            // 1. 显示特效：从中心向外扩散
-            if (burstEffect != null)
-            {
-                burstEffect.SetActive(true);
+            // 1. 显示全屏情绪颜色，从中心向外扩散后淡出
+            EmotionOverlay overlay = FindObjectOfType<EmotionOverlay>();
+            if (overlay != null)
+                overlay.ShowOverlay(emotionBarColor);
 
-                var particle = burstEffect.GetComponent<ParticleSystem>();
-                if (particle != null)
-                    particle.Play();
+            // 等待中心扩散遮罩和镜头反馈结束，再显示情绪条。
+            if (overlay != null)
+            {
+                while (overlay.IsPlaying)
+                    yield return null;
             }
 
             // 2. 显示情绪条并立即更新情绪
@@ -63,15 +65,15 @@ namespace Game.Core.Interaction
             if (EmotionBar.Instance != null)
             {
                 EmotionBar.Instance.gameObject.SetActive(true);
-                EmotionBar.Instance.ResetEmotion();
-                EmotionBar.Instance.AddEmotion(emotionGain);
+                EmotionBar.Instance.AddEmotion(emotionGain, emotionBarColor);
             }
 
-            // 3. 过一段时间后让特效消失
-            yield return new WaitForSeconds(burstDuration);
+            // 3. 展示一段时间后自动收起情绪条
+            if (emotionBarDisplayDuration > 0f)
+                yield return new WaitForSecondsRealtime(emotionBarDisplayDuration);
 
-            if (burstEffect != null)
-                burstEffect.SetActive(false);
+            if (emotionBarRoot != null)
+                emotionBarRoot.SetActive(false);
         }
     }
 }

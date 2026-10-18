@@ -25,6 +25,10 @@ public class DialogueInteractable : MonoBehaviour, IInteractable
     [SerializeField] private string inspectionFlagName = "";
     [SerializeField] private bool inspectionFlagValue = true;
 
+    [Header("点击时解锁手记线索")]
+    [Tooltip("填写 JournalEntryData.clueId；留空则不解锁线索")]
+    [SerializeField] private string clueIdToUnlock = "";
+
     [Header("点击显示的信息")]
     [TextArea(2, 5)]
     [SerializeField] private string infoText;
@@ -80,6 +84,7 @@ public class DialogueInteractable : MonoBehaviour, IInteractable
         {
             case InteractionType.TemporaryInfo:
                 manager.ShowTemporaryInfo(infoText, displayName, position, avatar);
+                UnlockJournalClue();
                 break;
 
             case InteractionType.InfoThenStory:
@@ -89,6 +94,7 @@ public class DialogueInteractable : MonoBehaviour, IInteractable
                     return;
                 }
                 manager.ShowTemporaryInfo(infoText, displayName, position, avatar, storyDialogueId);
+                UnlockJournalClue();
                 break;
 
             case InteractionType.StartStory:
@@ -98,7 +104,25 @@ public class DialogueInteractable : MonoBehaviour, IInteractable
                     return;
                 }
                 manager.StartMainDialogue(storyDialogueId);
+                UnlockJournalClue();
                 break;
         }
+    }
+
+    private void UnlockJournalClue()
+    {
+        if (string.IsNullOrWhiteSpace(clueIdToUnlock))
+            return;
+
+        if (JournalManager.Instance == null)
+        {
+            Debug.LogWarning(
+                $"[{nameof(DialogueInteractable)}] 点击 {name} 后找不到 JournalManager，无法解锁线索 {clueIdToUnlock}。",
+                this
+            );
+            return;
+        }
+
+        JournalManager.Instance.UnlockClue(clueIdToUnlock.Trim());
     }
 }
