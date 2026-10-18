@@ -103,12 +103,10 @@ namespace Game.Items.DragDrop
         public static void ShowAcquisitionFeedback(string message, Color color)
         {
             DragDropRuleManager manager = activeInstance;
-            if (manager == null)
-                manager = FindObjectOfType<DragDropRuleManager>();
 
             if (manager == null)
             {
-                Debug.LogWarning("[DragDropRuleManager] 当前场景没有可复用的 FeedbackText 管理器，无法显示获得提示。");
+                Debug.LogWarning("[DragDropRuleManager] 当前场景未启用 DragDropRuleManager，无法显示获得提示。");
                 return;
             }
 

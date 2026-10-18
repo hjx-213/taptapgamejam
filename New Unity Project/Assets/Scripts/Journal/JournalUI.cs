@@ -268,7 +268,10 @@ public class JournalUI : MonoBehaviour
 
             bool wasAlreadyUnlocked =
                 JournalManager.Instance.IsClueUnlocked(matchedRule.resultClue);
-            JournalManager.Instance.UnlockClue(matchedRule.resultClue);
+            // 推理结果已经在手记面板内反馈，不再弹出获得提示。
+            JournalManager.Instance.UnlockClue(
+                matchedRule.resultClue,
+                showAcquisitionFeedback: false);
 
             ShowMessage(wasAlreadyUnlocked
                 ? "这条线索已经推理出来了。"
