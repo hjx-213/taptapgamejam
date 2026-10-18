@@ -15,5 +15,5 @@ MonoBehaviour:
   endingFlag: ending2
   endingTitle: HAPPY END
   endingName: "\u7834\u6653\u4E4B\u6CC9"
-  endingCG: {fileID: 21300000, guid: 30e2187de735b5b4d8e179c1c2943f55, type: 3}
-  maskColor: {r: 0.9924528, g: 0.8187764, b: 0.32769656, a: 1}
+  endingCG: {fileID: 21300000, guid: cebc38b7f4f26284caf5db810075a410, type: 3}
+  maskColor: {r: 0.94716984, g: 0.8542607, b: 0.36278385, a: 1}
