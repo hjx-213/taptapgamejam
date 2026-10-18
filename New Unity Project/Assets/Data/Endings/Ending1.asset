@@ -15,5 +15,5 @@ MonoBehaviour:
   endingFlag: ending1
   endingTitle: BAD END
   endingName: "\u6C38\u52AB\u4E4B\u89D2"
-  endingCG: {fileID: 21300000, guid: a74ff495922531b428e0b870a609c1ff, type: 3}
-  maskColor: {r: 0.3509434, g: 0.036418613, b: 0.036418613, a: 1}
+  endingCG: {fileID: 21300000, guid: f7c6c6d4ce6a13d4a9a1b4a255180bf7, type: 3}
+  maskColor: {r: 0.6901961, g: 0.003921569, b: 0.007843138, a: 1}
