@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using Game.Items.DragDrop;
 
 public class JournalManager : MonoBehaviour
 {
@@ -56,6 +57,9 @@ public class JournalManager : MonoBehaviour
         if (unlockedClues.Add(clueId))
         {
             Debug.Log("手记解锁新线索：" + clueId);
+            DragDropRuleManager.ShowAcquisitionFeedback(
+                "新线索已记入手记",
+                new Color(0.35f, 0.75f, 1f));
 
             if (SaveManager.Instance != null)
             {
