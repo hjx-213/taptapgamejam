@@ -1,4 +1,5 @@
 using UnityEngine;
+using Game.Items;
 
 namespace Game.Puzzle
 {
@@ -48,6 +49,9 @@ namespace Game.Puzzle
         [SerializeField] private AudioClip rotateSound;
         [SerializeField] private AudioClip solveSound;
 
+        [Header("解谜奖励")]
+        [SerializeField] private string rewardItemId = "aosaitiyuanbing";
+
         public float RotateStep => rotateStep;
         public float Tolerance => tolerance;
 
@@ -55,6 +59,8 @@ namespace Game.Puzzle
 
         private void Awake()
         {
+            OnSolved.AddListener(GrantReward);
+
             if (rings == null || rings.Length == 0 || AllNull(rings))
             {
                 AutoCreateRings();
@@ -74,6 +80,19 @@ namespace Game.Puzzle
                     ring.transform.localRotation = Quaternion.Euler(0f, 0f, startAngle);
                 }
             }
+        }
+
+        private void GrantReward()
+        {
+            if (string.IsNullOrWhiteSpace(rewardItemId)) return;
+
+            if (Inventory.Instance == null)
+            {
+                Debug.LogError($"[RotatingRingPuzzle:{_puzzleName}] 解谜奖励发放失败：场景中没有 Inventory 实例。");
+                return;
+            }
+
+            Inventory.Instance.Add(rewardItemId);
         }
 
         private static bool AllNull(RotatingRing[] arr)

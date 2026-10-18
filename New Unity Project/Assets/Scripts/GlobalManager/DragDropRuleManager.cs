@@ -9,6 +9,8 @@ namespace Game.Items.DragDrop
 {
     public class DragDropRuleManager : MonoBehaviour
     {
+        private static DragDropRuleManager activeInstance;
+
         [Header("规则反馈 UI")]
         [SerializeField] private TMP_Text feedbackText;
         [Tooltip("拖拽结果文字显示的秒数；设为 0 则不自动清除")]
@@ -86,12 +88,29 @@ namespace Game.Items.DragDrop
 
         private void OnEnable()
         {
+            activeInstance = this;
             SubscribeDialogueEvents();
         }
 
         private void OnDisable()
         {
             UnsubscribeDialogueEvents();
+            if (activeInstance == this)
+                activeInstance = null;
+        }
+
+        /// <summary>Routes item and journal notifications through this scene's configured FeedbackText.</summary>
+        public static void ShowAcquisitionFeedback(string message, Color color)
+        {
+            DragDropRuleManager manager = activeInstance;
+
+            if (manager == null)
+            {
+                Debug.LogWarning("[DragDropRuleManager] 当前场景未启用 DragDropRuleManager，无法显示获得提示。");
+                return;
+            }
+
+            manager.ShowFeedback(message, color);
         }
 
         public void SetFeedbackText(TMP_Text text)

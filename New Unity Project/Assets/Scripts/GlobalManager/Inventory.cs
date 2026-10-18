@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Game.Items.DragDrop;
 
 namespace Game.Items
 {
@@ -103,6 +104,9 @@ namespace Game.Items
             _ownedIds.Add(data.itemId);
             Debug.Log($"[Inventory] ✨ 获得道具: {data.itemName}");
             OnItemAdded?.Invoke(data);
+            DragDropRuleManager.ShowAcquisitionFeedback(
+                $"获得道具：{data.itemName}",
+                new Color(0.2f, 0.8f, 0.35f));
             return true;
         }
 
