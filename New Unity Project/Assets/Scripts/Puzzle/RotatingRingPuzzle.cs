@@ -56,7 +56,24 @@ namespace Game.Puzzle
         private void Awake()
         {
             if (rings == null || rings.Length == 0 || AllNull(rings))
+            {
                 AutoCreateRings();
+                return;
+            }
+
+            // Scene-authored rings keep their custom artwork and get the same
+            // parent/marker initialization as procedurally created rings.
+            foreach (RotatingRing ring in rings)
+            {
+                if (ring == null) continue;
+
+                ring.Initialize(this, ring.MarkerTransform);
+                if (randomizeStart)
+                {
+                    float startAngle = Random.Range(0f, 360f);
+                    ring.transform.localRotation = Quaternion.Euler(0f, 0f, startAngle);
+                }
+            }
         }
 
         private static bool AllNull(RotatingRing[] arr)

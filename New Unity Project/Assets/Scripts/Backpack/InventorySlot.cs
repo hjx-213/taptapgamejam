@@ -133,6 +133,27 @@ namespace Game.UI
             if (string.IsNullOrEmpty(itemId))
                 return;
 
+            // Screen-space puzzle panels are UI targets rather than world colliders.
+            // Give them first chance to consume the inventory drag.
+            if (EventSystem.current != null)
+            {
+                var pointer = new PointerEventData(EventSystem.current)
+                {
+                    position = eventData.position
+                };
+                var uiHits = new System.Collections.Generic.List<RaycastResult>();
+                EventSystem.current.RaycastAll(pointer, uiHits);
+                foreach (var uiHit in uiHits)
+                {
+                    var closeupTarget = uiHit.gameObject.GetComponentInParent<SinkCloseupDropTarget>();
+                    if (closeupTarget != null)
+                    {
+                        closeupTarget.TryDrop(itemId);
+                        return;
+                    }
+                }
+            }
+
             if (_mainCamera == null)
                 _mainCamera = Camera.main;
 
@@ -172,7 +193,11 @@ namespace Game.UI
                     return;
                 }
 
-                if (_ruleManager != null)
+                // 目标区知道当前场景应该使用哪个规则管理器；背包是跨场景 UI，
+                // 其预制体上的 _ruleManager 通常为空，所以先向 DropZone 转发。
+                bool registeredByDropZone = zone.RegisterInventoryDrop(itemId);
+
+                if (!registeredByDropZone && _ruleManager != null)
                 {
                     _ruleManager.RegisterSuccessfulDrop(
                         itemId,
@@ -180,12 +205,24 @@ namespace Game.UI
                         true
                     );
                 }
-                else
+                else if (!registeredByDropZone)
                 {
-                    Debug.LogWarning("[InventorySlot] 尚未绑定 DragDropRuleManager。", this);
+                    Debug.LogWarning(
+                        "[InventorySlot] DropZone 和 InventorySlot 都没有绑定 DragDropRuleManager；物品仍会被消耗，但不会计入拖拽规则。",
+                        this
+                    );
                 }
 
-                Inventory.Instance.Remove(itemId);
+                bool itemRemoved = Inventory.Instance.Remove(itemId);
+
+                if (itemRemoved)
+                {
+                    BackpackPanelToggle backpackToggle =
+                        FindObjectOfType<BackpackPanelToggle>();
+
+                    if (backpackToggle != null)
+                        backpackToggle.Close();
+                }
 
                 Debug.Log($"[InventorySlot] 道具 {itemId} 已拖入目标 {zone.TargetId}。");
                 return;

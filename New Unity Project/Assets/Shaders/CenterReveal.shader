@@ -5,8 +5,10 @@ Shader "UI/CenterReveal"
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
         _Color ("Tint", Color) = (1,1,1,1)
         _Center ("Center", Vector) = (0.5, 0.5, 0, 0)
-        _Radius ("Radius", Range(0, 2)) = 0
+        _Radius ("黑色扩散半径", Range(0, 2)) = 0
         _Softness ("Softness", Range(0.02, 1)) = 0.12
+        _Aspect ("画面宽高比", Float) = 1
+        _MaskColor ("遮罩颜色", Color) = (0,0,0,1)
     }
 
     SubShader
@@ -52,6 +54,8 @@ Shader "UI/CenterReveal"
             float2 _Center;
             float _Radius;
             float _Softness;
+            float _Aspect;
+            fixed4 _MaskColor;
 
             v2f vert(appdata_t v)
             {
@@ -65,13 +69,13 @@ Shader "UI/CenterReveal"
             fixed4 frag(v2f i) : SV_Target
             {
                 float2 uv = i.texcoord;
-                float distanceFromCenter = distance(uv, _Center);
+                float2 circleSpace = float2((uv.x - _Center.x) * _Aspect, uv.y - _Center.y);
+                float distanceFromCenter = length(circleSpace);
 
-                // 半径越大，越接近 1，表示更多地方被黑遮住。
-                // 中心处先变透明，随后向四周扩散。
-                float blackMask = smoothstep(_Radius, _Radius + _Softness, distanceFromCenter);
+                // 半径越大，黑色区域越大；半径达到 1 时可覆盖整个屏幕。
+                float blackMask = 1.0 - smoothstep(_Radius - _Softness, _Radius, distanceFromCenter);
 
-                fixed4 col = fixed4(0, 0, 0, blackMask);
+                fixed4 col = fixed4(_MaskColor.rgb, blackMask * _MaskColor.a);
                 col *= i.color;
                 return col;
             }

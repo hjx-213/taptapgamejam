@@ -674,8 +674,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -2450}
-  m_SizeDelta: {x: 0, y: -4900}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &759020212
 MonoBehaviour:
@@ -981,7 +981,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0.000030517578, y: -49.99991}
-  m_SizeDelta: {x: 800, y: 50}
+  m_SizeDelta: {x: 800, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1025112526
 GameObject:
@@ -1105,7 +1105,10 @@ MonoBehaviour:
     expression: 
     avatar: {fileID: 21300000, guid: 3a3d5fe0495417d42a49d3907438e39e, type: 3}
   startId: 0
-  dialogueFlags: []
+  dialogueFlags:
+  - endDialogueId: 42
+    flagName: ending1
+    flagValue: 1
   autoPlayOnSceneEnter: 1
 --- !u!4 &1086573632
 Transform:
@@ -1178,7 +1181,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadePanel: {fileID: 532853096}
-  fadeDuration: 2
+  maskColor: {r: 0, g: 0, b: 0, a: 1}
+  fadeDuration: 3
+  cgDisplayDuration: 4
+  cgFadeDuration: 1
   endingTitle: {fileID: 112360341}
   endingName: {fileID: 1428633493}
   restartButton: {fileID: 0}
@@ -1354,6 +1360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   feedbackText: {fileID: 0}
+  feedbackDisplayDuration: 2
   dialogueManager: {fileID: 1086573631}
   imageTransition: {fileID: 0}
   rules:
@@ -1401,6 +1408,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1303720465}
   - component: {fileID: 1303720464}
+  - component: {fileID: 1734610022}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1679,6 +1687,23 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_MaxRayIntersections: 0
+--- !u!114 &1734610022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303720463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4ebd8c730c2467ba6cd984e10f2132f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 1086573631}
+  endingEffect: {fileID: 1095412513}
+  endings:
+  - {fileID: 11400000, guid: 99c526e3ccd7e5a45a3f7a88aa1d8846, type: 2}
+  - {fileID: 11400000, guid: 2ad0b389ddec6fb499c94f5e395ab313, type: 2}
 --- !u!1001 &1912110607
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2016,9 +2041,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: BackToMainMenu
+      - m_Target: {fileID: 1734610022}
+        m_TargetAssemblyTypeName: EndingSequenceController, Assembly-CSharp
+        m_MethodName: ReturnToMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

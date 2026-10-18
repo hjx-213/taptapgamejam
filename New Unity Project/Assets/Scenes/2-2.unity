@@ -205,6 +205,7 @@ MonoBehaviour:
   requiredFlagValue: 1
   inspectionFlagName: 
   inspectionFlagValue: 1
+  clueIdToUnlock: zenghenmuguang
   infoText: 
   storyDialogueId: -1
 --- !u!114 &152663937
@@ -372,6 +373,7 @@ MonoBehaviour:
   requiredFlagValue: 1
   inspectionFlagName: 
   inspectionFlagValue: 1
+  clueIdToUnlock: 
   infoText: "\u6751\u4E2D\u6709\u8BB8\u591A\u4EBA\u90FD\u4F69\u6234\u7740\u8FD9\u6837\u7684\u77ED\u5200\u3002"
   storyDialogueId: -1
 --- !u!114 &358973600
@@ -641,6 +643,7 @@ MonoBehaviour:
   requiredFlagValue: 1
   inspectionFlagName: 
   inspectionFlagValue: 1
+  clueIdToUnlock: 
   infoText: 
   storyDialogueId: -1
 --- !u!114 &913221342
@@ -808,6 +811,7 @@ MonoBehaviour:
   requiredFlagValue: 1
   inspectionFlagName: 
   inspectionFlagValue: 1
+  clueIdToUnlock: 
   infoText: "\u8FD8\u6CA1\u5230\u80FD\u8FDB\u53BB\u7684\u65F6\u5019\u3002"
   storyDialogueId: -1
 --- !u!114 &938454890
@@ -1514,6 +1518,7 @@ MonoBehaviour:
   requiredFlagValue: 1
   inspectionFlagName: 
   inspectionFlagValue: 1
+  clueIdToUnlock: 
   infoText: 
   storyDialogueId: -1
 --- !u!114 &1295143235
@@ -1790,6 +1795,7 @@ MonoBehaviour:
   requiredFlagValue: 1
   inspectionFlagName: 
   inspectionFlagValue: 1
+  clueIdToUnlock: shengwu
   infoText: 
   storyDialogueId: -1
 --- !u!114 &1606150583

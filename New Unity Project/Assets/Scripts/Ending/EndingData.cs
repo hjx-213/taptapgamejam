@@ -13,4 +13,7 @@ public class EndingData : ScriptableObject
 
     [Header("结局 CG")]
     public Sprite endingCG;
+
+    [Header("结局演出")]
+    public Color maskColor = Color.black;
 }
