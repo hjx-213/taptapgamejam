@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Game.UI;
 
 public class AudioManager : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class AudioManager : MonoBehaviour
     public float bgmFadeDuration = 0.8f;
 
     private Coroutine bgmFadeCoroutine;
+    private float bgmFadeLevel;
+    private float musicVolume = 1f;
+    private float soundVolume = 1f;
 
     private void Awake()
     {
@@ -34,8 +38,34 @@ public class AudioManager : MonoBehaviour
 
         if (bgmSource != null)
         {
+            bgmFadeLevel = 0f;
             bgmSource.volume = 0f;
         }
+    }
+
+    private void Start()
+    {
+        // Awake 阶段所有单例都已初始化；读取已保存的值并订阅实时变化。
+        SettingsManager settings = SettingsManager.Instance;
+        if (settings == null)
+            return;
+
+        settings.OnMusicVolumeChanged.AddListener(SetMusicVolume);
+        settings.OnSoundVolumeChanged.AddListener(SetSoundVolume);
+        SetMusicVolume(settings.MusicVolume);
+        SetSoundVolume(settings.SoundVolume);
+    }
+
+    private void OnDestroy()
+    {
+        if (SettingsManager.Instance != null)
+        {
+            SettingsManager.Instance.OnMusicVolumeChanged.RemoveListener(SetMusicVolume);
+            SettingsManager.Instance.OnSoundVolumeChanged.RemoveListener(SetSoundVolume);
+        }
+
+        if (Instance == this)
+            Instance = null;
     }
 
     private void OnEnable()
@@ -59,10 +89,7 @@ public class AudioManager : MonoBehaviour
         if (bgmSource.clip != null && bgmSource.isPlaying)
         {
             bgmSource.loop = true;
-            if (bgmSource.volume < 0.01f)
-            {
-                bgmSource.volume = 0.05f;
-            }
+            ApplyBGMVolume();
         }
     }
 
@@ -78,7 +105,10 @@ public class AudioManager : MonoBehaviour
         }
 
         if (bgmSource.clip == clip && bgmSource.isPlaying)
+        {
+            ApplyBGMVolume();
             return;
+        }
 
         if (bgmFadeCoroutine != null)
         {
@@ -125,22 +155,41 @@ public class AudioManager : MonoBehaviour
         sfxSource.PlayOneShot(clip, volumeScale);
     }
 
+    private void SetMusicVolume(float volume)
+    {
+        musicVolume = Mathf.Clamp01(volume);
+        ApplyBGMVolume();
+    }
+
+    private void SetSoundVolume(float volume)
+    {
+        soundVolume = Mathf.Clamp01(volume);
+        if (sfxSource != null)
+            sfxSource.volume = soundVolume;
+    }
+
+    private void ApplyBGMVolume()
+    {
+        if (bgmSource != null)
+            bgmSource.volume = bgmFadeLevel * musicVolume;
+    }
+
     private IEnumerator FadeInBGM(AudioClip clip, float duration)
     {
-        float startVolume = bgmSource.isPlaying ? bgmSource.volume : 0f;
-
         if (bgmSource.isPlaying && bgmSource.clip != null && bgmSource.clip != clip)
         {
-            yield return StartCoroutine(FadeVolume(bgmSource, startVolume, 0f, duration * 0.5f));
+            yield return StartCoroutine(FadeBGMLevel(
+                bgmFadeLevel, 0f, duration * 0.5f));
             bgmSource.Stop();
         }
 
         bgmSource.clip = clip;
         bgmSource.loop = true;
+        bgmFadeLevel = 0f;
+        ApplyBGMVolume();
         bgmSource.Play();
-        bgmSource.volume = 0f;
 
-        yield return StartCoroutine(FadeVolume(bgmSource, 0f, 1f, duration));
+        yield return StartCoroutine(FadeBGMLevel(0f, 1f, duration));
         bgmFadeCoroutine = null;
     }
 
@@ -152,23 +201,25 @@ public class AudioManager : MonoBehaviour
             yield break;
         }
 
-        float startVolume = bgmSource.volume;
-        yield return StartCoroutine(FadeVolume(bgmSource, startVolume, 0f, duration));
+        yield return StartCoroutine(FadeBGMLevel(
+            bgmFadeLevel, 0f, duration));
 
         bgmSource.Stop();
         bgmSource.clip = null;
-        bgmSource.volume = 0f;
+        bgmFadeLevel = 0f;
+        ApplyBGMVolume();
         bgmFadeCoroutine = null;
     }
 
-    private IEnumerator FadeVolume(AudioSource source, float from, float to, float duration)
+    private IEnumerator FadeBGMLevel(float from, float to, float duration)
     {
-        if (source == null)
+        if (bgmSource == null)
             yield break;
 
         if (duration <= 0f)
         {
-            source.volume = to;
+            bgmFadeLevel = to;
+            ApplyBGMVolume();
             yield break;
         }
 
@@ -176,10 +227,12 @@ public class AudioManager : MonoBehaviour
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            source.volume = Mathf.Lerp(from, to, Mathf.Clamp01(elapsed / duration));
+            bgmFadeLevel = Mathf.Lerp(from, to, Mathf.Clamp01(elapsed / duration));
+            ApplyBGMVolume();
             yield return null;
         }
 
-        source.volume = to;
+        bgmFadeLevel = to;
+        ApplyBGMVolume();
     }
 }

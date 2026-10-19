@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clueId: pingxifangshi
   clueTitle: "\u5E73\u606F\u65B9\u5F0F"
-  clueContent: "\u4E16\u4EC7\u4E4B\u4E0B\u5B89\u6709\u5B8C\u5375\u3002"
-  clueImage: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  clueContent: "\u82E5\u6B32\u548C\u89E3\uFF0C\u9700\u7531\u5FB7\u9AD8\u671B\u91CD\u8005\u8C03\u89E3\uFF0C\u4EE5\u5723\u7269\u732E\u548C\u89E3\u4E4B\u9152\u3002"
+  clueImage: {fileID: 0}
   pageGroup: 1
