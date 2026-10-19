@@ -2521,16 +2521,60 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3777955860168707663, guid: 372bef4951290784289e8597d20e929d, type: 3}
       propertyPath: bgmEntries.Array.size
-      value: 2
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3777955860168707663, guid: 372bef4951290784289e8597d20e929d, type: 3}
+      propertyPath: sfxEntries.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3777955860168707663, guid: 372bef4951290784289e8597d20e929d, type: 3}
+      propertyPath: bgmEntries.Array.data[0].id
+      value: "\u4E3B\u573A\u666Fbgm"
       objectReference: {fileID: 0}
     - target: {fileID: 3777955860168707663, guid: 372bef4951290784289e8597d20e929d, type: 3}
       propertyPath: bgmEntries.Array.data[1].id
-      value: wakeup
+      value: "\u5A5A\u5BB4bgm"
       objectReference: {fileID: 0}
+    - target: {fileID: 3777955860168707663, guid: 372bef4951290784289e8597d20e929d, type: 3}
+      propertyPath: bgmEntries.Array.data[2].id
+      value: "\u7EC8\u5C40bgm"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3777955860168707663, guid: 372bef4951290784289e8597d20e929d, type: 3}
+      propertyPath: bgmEntries.Array.data[3].id
+      value: "\u8C03\u67E5bgm"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3777955860168707663, guid: 372bef4951290784289e8597d20e929d, type: 3}
+      propertyPath: bgmEntries.Array.data[4].id
+      value: "\u5A5A\u5BB4\u73AF\u5883"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3777955860168707663, guid: 372bef4951290784289e8597d20e929d, type: 3}
+      propertyPath: bgmEntries.Array.data[5].id
+      value: "\u5BA4\u5916\u73AF\u5883"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3777955860168707663, guid: 372bef4951290784289e8597d20e929d, type: 3}
+      propertyPath: bgmEntries.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 2eef30edd4d57a145bd21ea03caa978a, type: 3}
     - target: {fileID: 3777955860168707663, guid: 372bef4951290784289e8597d20e929d, type: 3}
       propertyPath: bgmEntries.Array.data[1].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 5fba20ddeca2df647b30c715d30141c1, type: 3}
+      objectReference: {fileID: 8300000, guid: 4230fa9cb869494419c35f136daf6318, type: 3}
+    - target: {fileID: 3777955860168707663, guid: 372bef4951290784289e8597d20e929d, type: 3}
+      propertyPath: bgmEntries.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 781b5f8da19ca224fbf171b9d2b59abc, type: 3}
+    - target: {fileID: 3777955860168707663, guid: 372bef4951290784289e8597d20e929d, type: 3}
+      propertyPath: bgmEntries.Array.data[3].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 1c7dcd97190bea04a81ad075053f8aaf, type: 3}
+    - target: {fileID: 3777955860168707663, guid: 372bef4951290784289e8597d20e929d, type: 3}
+      propertyPath: bgmEntries.Array.data[4].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4ec27a02dc37d374e93cae0348ad09ce, type: 3}
+    - target: {fileID: 3777955860168707663, guid: 372bef4951290784289e8597d20e929d, type: 3}
+      propertyPath: bgmEntries.Array.data[5].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: f2ce2a9ea5504f84f90b1f8040e0c6a8, type: 3}
     - target: {fileID: 3884678894066850087, guid: 372bef4951290784289e8597d20e929d, type: 3}
       propertyPath: bgmSource
       value: 
