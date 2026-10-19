@@ -14,7 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: yinjiaobei
   itemName: "\u94F6\u89D2\u676F"
-  description: "\u6D17\u5E72\u51C0\u4E86\u3002"
-  icon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  type: 0
-  worldPrefab: {fileID: 0}
+  description: 
+  icon: {fileID: 21300000, guid: 0263f37cb1e15d9479bbaa571e4bb4b2, type: 3}

@@ -14,40 +14,23 @@ public class UIManager : MonoBehaviour
         public GameObject panelObject;
     }
 
+    [Header("主面板")]
+    [SerializeField] private GameObject backpackPanel;
+    [SerializeField] private GameObject dialoguePanel;
+    [SerializeField] private GameObject journalPanel;
+
     public UIPanel[] panels;
     [SerializeField] private TMPro.TMP_InputField passwordInput;
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
-    }
-
-    public void OpenPanel(string panelName)
-    {
-        foreach (UIPanel panel in panels)
-        {
-            if (panel.panelName == panelName)
-            {
-                panel.panelObject.SetActive(true);
-                return;
-            }
-        }
-
-        Debug.LogWarning("找不到 UI 面板：" + panelName);
-    }
-
-    public void ClosePanel(string panelName)
-    {
-        foreach (UIPanel panel in panels)
-        {
-            if (panel.panelName == panelName)
-            {
-                panel.panelObject.SetActive(false);
-                return;
-            }
-        }
-
-        Debug.LogWarning("找不到 UI 面板：" + panelName);
     }
 
     public void SubmitPassword(PasswordBox puzzle)

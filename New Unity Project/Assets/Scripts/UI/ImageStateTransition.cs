@@ -1,4 +1,3 @@
-
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +18,7 @@ namespace Game.UI
         private bool isState2;
 
         public bool IsState2 => isState2;
+        public float Duration => duration;
 
         private void Awake()
         {

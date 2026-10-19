@@ -1,20 +1,13 @@
 using UnityEngine;
-using UnityEngine.Events;
 using Game.Core.Interaction;
 
 namespace Game.Items
 {
-    /// <summary>
-    /// 场景里可拾取的道具：挂在世界中可拾取物体的 prefab 上（钥匙、文档等）。
-    /// 实现 IInteractable，玩家点击时自动加入背包并消失。
-    ///
-    /// Inspector 字段：
-    ///   - Item Id：对应 ItemData.itemId（必填）
-    ///   - Prompt：悬停时显示的前缀文字（默认"拾取 "）
-    ///   - Pickup Sound：拾取音效（可选，留空用 AudioManager 自动派）
-    ///   - On Picked Up：拾取成功后的额外事件（给 AudioManager / UIManager 挂）
-    ///   - Keep Visible After Pickup：保留显示（用于需要"已读"标记的文档类）
-    /// </summary>
+    // 场景里可拾取的道具：挂在世界中可拾取的物体上
+    // 实现 IInteractable，玩家点击时自动加入背包并消失
+    // Inspector 字段：
+    //   - Item Id：对应 ItemData.itemId（必填）
+    //   - Pickup Sound：拾取音效
     [RequireComponent(typeof(Collider2D))]
     public class ItemPickup : MonoBehaviour, IInteractable
     {
@@ -22,25 +15,17 @@ namespace Game.Items
         [Tooltip("对应 ItemData.itemId，必须在 ItemDatabase 中存在")]
         [SerializeField] private string _itemId;
 
-        [Tooltip("悬停时显示的前缀文字，如'拾取 '")]
-        [SerializeField] private string _prompt = "拾取 ";
-
-        [Header("音效（可选）")]
-        [Tooltip("拾取音效，留空则跳过。可挂给 AudioManager 接管")]
+        [Header("拾取音效")]
+        [Tooltip("留空则跳过")]
         [SerializeField] private AudioClip _pickupSound;
-
-        [Header("事件")]
-        [Tooltip("拾取成功时触发。兔汁可在此挂 AudioManager.PlaySFX()")]
-        public UnityEvent OnPickedUp;
-
-        [Header("高级")]
-        [Tooltip("拾取后保留显示（用于文档类需要'已读'标记）")]
-        [SerializeField] private bool _keepVisibleAfterPickup;
+        [Tooltip("拾取音效音量")]
+        [Range(0f, 2f)]
+        [SerializeField] private float _pickupVolume = 0.8f;
 
         private bool _collected;
 
         // ---------- IInteractable ----------
-        public string PromptText => _collected ? "" : _prompt + GetItemName();
+        public string PromptText => string.Empty;
         public bool CanInteract => !_collected && !string.IsNullOrEmpty(_itemId);
 
         public void Interact(GameObject player)
@@ -55,24 +40,29 @@ namespace Game.Items
             if (Inventory.Instance.Add(_itemId))
             {
                 _collected = true;
-                OnPickedUp?.Invoke();
 
-                // 直接播音效（如果兔汁的 AudioManager 没接，这里能 fallback）
+                // 拾取成功后立刻从画面中消失
+                var col = GetComponent<Collider2D>();
+                if (col != null) col.enabled = false;
+
+                var renderer = GetComponent<Renderer>();
+                if (renderer != null) renderer.enabled = false;
+
+                // 统一走 AudioManager 的 SFX 通道，保证音量和管理逻辑一致
                 if (_pickupSound != null)
                 {
-                    AudioSource.PlayClipAtPoint(_pickupSound, transform.position);
+                    if (AudioManager.Instance != null)
+                    {
+                        AudioManager.Instance.PlaySFX(_pickupSound, _pickupVolume);
+                    }
+                    else
+                    {
+                        Debug.LogWarning("[ItemPickup] AudioManager.Instance 未初始化，跳过拾取音效");
+                    }
                 }
 
-                if (!_keepVisibleAfterPickup)
-                {
-                    gameObject.SetActive(false);
-                }
-                else
-                {
-                    // 保留可见时禁用碰撞（不能再点）
-                    var col = GetComponent<Collider2D>();
-                    if (col != null) col.enabled = false;
-                }
+                // 物体从场景中消失，重置时再重新显示
+                gameObject.SetActive(false);
             }
         }
 
@@ -86,9 +76,7 @@ namespace Game.Items
             return item != null ? item.itemName : _itemId;
         }
 
-        /// <summary>
-        /// 用于重置场景（编辑器调试用）。
-        /// </summary>
+        // 用于重置场景
         public void ResetPickup()
         {
             _collected = false;
@@ -98,11 +86,7 @@ namespace Game.Items
         }
     }
 
-    /// <summary>
-    /// ItemDatabase 的全局注册表（避免 ItemPickup 与 Inventory 直接耦合）。
-    /// 由 Inventory.Awake() 在初始化时调用 SetDatabase。
-    /// 这样 ItemPickup 只需要关心 itemId → ItemData 的查询。
-    /// </summary>
+    // 由 Inventory.Awake() 在初始化时调用 SetDatabase
     public static class ItemDatabaseRegistry
     {
         private static ItemDatabase _current;

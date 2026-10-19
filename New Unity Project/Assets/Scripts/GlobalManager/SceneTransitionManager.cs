@@ -6,14 +6,7 @@ using UnityEngine.UI;
 
 namespace Game.Core.SceneTransition
 {
-    /// <summary>
-    /// 场景切换管理器：黑屏淡入淡出切换场景。
-    ///
-    /// 用法：
-    ///   - 在空 GameObject 上挂这个组件（不需要 Inspector 配 Canvas，自动生成）
-    ///   - 调用 SceneTransitionManager.Instance.FadeToScene("SceneName") 切换场景
-    ///   - 也可单独调 FadeIn() / FadeOut() 做纯淡入淡出
-    /// </summary>
+    // 场景切换管理器：黑屏淡入淡出切换场景。
     public class SceneTransitionManager : MonoBehaviour
     {
         public static SceneTransitionManager Instance { get; private set; }
@@ -74,21 +67,21 @@ namespace Game.Core.SceneTransition
             rt.anchoredPosition = Vector2.zero;
         }
 
-        /// <summary>淡出到黑屏，然后加载新场景，再淡入回来</summary>
+        // 淡出到黑屏，然后加载新场景，再淡入回来
         public void FadeToScene(string sceneName)
         {
             if (_isFading) return;
             StartCoroutine(FadeToSceneRoutine(sceneName));
         }
 
-        /// <summary>单独淡出到黑屏（覆盖屏幕）</summary>
+        // 单独淡出到黑屏（覆盖屏幕）
         public void FadeIn(Action onComplete = null)
         {
             if (_isFading) return;
             StartCoroutine(FadeRoutine(1f, onComplete));
         }
 
-        /// <summary>单独淡入回来（变透明看到场景）</summary>
+        // 单独淡入回来（变透明看到场景）
         public void FadeOut(Action onComplete = null)
         {
             if (_isFading) return;

@@ -1,7 +1,7 @@
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using Game.Dialogue;
 using Game.UI;
 
@@ -9,6 +9,15 @@ namespace Game.Items.DragDrop
 {
     public class DragDropRuleManager : MonoBehaviour
     {
+        private static DragDropRuleManager activeInstance;
+
+        [Header("规则反馈 UI")]
+        [SerializeField] private TMP_Text feedbackText;
+        [Tooltip("拖拽结果文字显示的秒数；设为 0 则不自动清除")]
+        [SerializeField, Min(0f)] private float feedbackDisplayDuration = 2f;
+
+        private Coroutine feedbackClearCoroutine;
+
         [Serializable]
         public class CountRequirement
         {
@@ -29,29 +38,28 @@ namespace Game.Items.DragDrop
             [Header("规则名称")]
             public string ruleName;
 
-            [Header("拖拽次数条件（全部满足才完成）")]
+            [Header("拖拽总次数")]
+            [Min(1)]
+            public int totalRequiredCount;
+
+            [Header("成功判定条件")]
             public List<CountRequirement> requirements =
                 new List<CountRequirement>();
 
-            [Header("可选：播放主线对话")]
+            [Header("拖拽完成切入剧情")]
             public bool playDialogue;
             public int dialogueId;
 
-            [Header("可选：指定台词时切换图片")]
+            [Header("指定台词切换图片")]
             public bool changeImage;
             public int triggerDialogueId;
 
-            [Header("可选：获得道具")]
+            [Header("拖拽完成获得道具")]
             public bool grantItem;
-
             public string rewardItemId;
 
             [Min(0.01f)]
             public float imageTransitionDuration = 0.8f;
-
-            [Header("接收方总拖拽次数")]
-            [Min(1)]
-            public int totalRequiredCount = 3;
 
             [NonSerialized]
             public int totalCurrentCount;
@@ -66,7 +74,7 @@ namespace Game.Items.DragDrop
             public bool rewardIssued;
         }
 
-        [Header("场景中的对话管理器")]
+        [Header("可选：场景中的对话管理器")]
         [SerializeField] private DialogueManager dialogueManager;
 
         [Header("可选：图片切换组件")]
@@ -80,12 +88,73 @@ namespace Game.Items.DragDrop
 
         private void OnEnable()
         {
+            activeInstance = this;
             SubscribeDialogueEvents();
         }
 
         private void OnDisable()
         {
             UnsubscribeDialogueEvents();
+            if (activeInstance == this)
+                activeInstance = null;
+        }
+
+        /// <summary>Routes item and journal notifications through this scene's configured FeedbackText.</summary>
+        public static void ShowAcquisitionFeedback(string message, Color color)
+        {
+            DragDropRuleManager manager = activeInstance;
+
+            if (manager == null)
+            {
+                Debug.LogWarning("[DragDropRuleManager] 当前场景未启用 DragDropRuleManager，无法显示获得提示。");
+                return;
+            }
+
+            manager.ShowFeedback(message, color);
+        }
+
+        public void SetFeedbackText(TMP_Text text)
+        {
+            feedbackText = text;
+        }
+
+        public void ShowFeedback(string message, Color color)
+        {
+            if (feedbackText == null)
+                return;
+
+            if (feedbackClearCoroutine != null)
+            {
+                StopCoroutine(feedbackClearCoroutine);
+                feedbackClearCoroutine = null;
+            }
+
+            feedbackText.text = message;
+            feedbackText.color = color;
+
+            if (feedbackDisplayDuration > 0f && !string.IsNullOrEmpty(message))
+                feedbackClearCoroutine = StartCoroutine(ClearFeedbackAfterDelay());
+        }
+
+        private System.Collections.IEnumerator ClearFeedbackAfterDelay()
+        {
+            yield return new WaitForSecondsRealtime(feedbackDisplayDuration);
+
+            if (feedbackText != null)
+                feedbackText.text = "";
+
+            feedbackClearCoroutine = null;
+        }
+
+        private void ShowRuleResult(bool success, string ruleName)
+        {
+            if (string.IsNullOrEmpty(ruleName))
+                return;
+
+            if (success)
+                ShowFeedback($"{ruleName} 完成！", new Color(0.2f, 0.8f, 0.35f));
+            else
+                ShowFeedback($"{ruleName} 失败，重新尝试", new Color(0.9f, 0.35f, 0.35f));
         }
 
         private void SubscribeDialogueEvents()
@@ -184,6 +253,7 @@ namespace Game.Items.DragDrop
                     Debug.LogWarning(
                         $"[拖拽规则] {rule.ruleName} 失败：总次数超出要求。");
 
+                    ShowRuleResult(false, rule.ruleName);
                     ResetRuleCounts(rule);
                     rule.failed = true;
                     continue;
@@ -197,6 +267,7 @@ namespace Game.Items.DragDrop
                     Debug.Log(
                         $"[拖拽规则] {rule.ruleName}：所有条件满足。");
 
+                    ShowRuleResult(true, rule.ruleName);
                     ExecuteRule(rule);
                 }
                 else
@@ -205,6 +276,7 @@ namespace Game.Items.DragDrop
                         $"[拖拽规则] {rule.ruleName} 失败：" +
                         "具体拖拽次数不符合要求。本轮计数已重置。");
 
+                    ShowRuleResult(false, rule.ruleName);
                     ResetRuleCounts(rule);
                     rule.failed = true;
                 }

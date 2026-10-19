@@ -2,23 +2,20 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Game.Items.DragDrop;
 
 namespace Game.Items
 {
-    /// <summary>
-    /// 玩家背包：场景里挂一个全局唯一实例（通常和 GameFlow 一起挂在 GameManager 上）。
-    ///
-    /// 用法：
-    ///   - 在 Inventory 的 Database 字段拖入 ItemDatabase.asset。
-    ///   - 拾取道具：Inventory.Instance.Add("key_main")
-    ///   - 判断是否持有：Inventory.Instance.Has("key_main")
-    ///   - 监听获得事件：在 Inspector 拖 OnItemAdded 的 UnityEvent
-    /// </summary>
+    // 用法：
+    //   - 在 Inventory 的 Database 字段拖入 ItemDatabase.asset
+    //   - 拾取道具：Inventory.Instance.Add("key_main")
+    //   - 判断是否持有：Inventory.Instance.Has("key_main")
+    //   - 监听获得事件：在 Inspector 拖 OnItemAdded 的 UnityEvent
     public class Inventory : MonoBehaviour
     {
         public static Inventory Instance { get; private set; }
 
-        [Tooltip("道具数据库 SO（全局唯一）")]
+        [Tooltip("道具数据库（全局唯一）")]
         [SerializeField] private ItemDatabase _database;
 
         private readonly HashSet<string> _ownedIds = new HashSet<string>();
@@ -26,10 +23,10 @@ namespace Game.Items
         [System.Serializable] public class ItemDataEvent : UnityEvent<ItemData> { }
         [System.Serializable] public class StringEvent : UnityEvent<string> { }
 
-        /// <summary>获得道具时触发（参数：ItemData）</summary>
+        // 获得道具时触发（参数：ItemData）
         public ItemDataEvent OnItemAdded;
 
-        /// <summary>移除道具时触发（参数：itemId）</summary>
+        // 移除道具时触发（参数：itemId）
         public StringEvent OnItemRemoved;
 
         private void Awake()
@@ -59,9 +56,7 @@ namespace Game.Items
             if (Instance == this) Instance = null;
         }
 
-        /// <summary>
-        /// 获得道具。
-        /// </summary>
+        // 获得道具。
         public bool Add(string itemId)
         {
             if (_database == null)
@@ -86,9 +81,7 @@ namespace Game.Items
             return AddInternal(data);
         }
 
-        /// <summary>
-        /// 直接通过 ItemData 添加（用于调酒等系统生成的新道具，无需先注册到 database）。
-        /// </summary>
+        // 直接通过 ItemData 添加（用于调酒等系统生成的新道具，无需先注册到 database）
         public bool Add(ItemData data)
         {
             if (data == null)
@@ -111,16 +104,19 @@ namespace Game.Items
             _ownedIds.Add(data.itemId);
             Debug.Log($"[Inventory] ✨ 获得道具: {data.itemName}");
             OnItemAdded?.Invoke(data);
+            DragDropRuleManager.ShowAcquisitionFeedback(
+                $"获得道具：{data.itemName}",
+                new Color(0.2f, 0.8f, 0.35f));
             return true;
         }
 
-        /// <summary>判断是否已持有</summary>
+        // 判断是否已持有
         public bool Has(string itemId)
         {
             return !string.IsNullOrEmpty(itemId) && _ownedIds.Contains(itemId);
         }
 
-        /// <summary>移除道具（触发 OnItemRemoved 事件，UI 可监听）</summary>
+        // 移除道具（触发 OnItemRemoved 事件，UI 可监听）
         public bool Remove(string itemId)
         {
             if (string.IsNullOrEmpty(itemId)) return false;
@@ -131,10 +127,10 @@ namespace Game.Items
             return true;
         }
 
-        /// <summary>清空（重置游戏用）</summary>
+        // 清空（重置游戏用）
         public void Clear() => _ownedIds.Clear();
 
-        /// <summary>当前持有的所有 itemId（只读）</summary>
+        // 当前持有的所有 itemId（只读）
         public IReadOnlyCollection<string> AllOwnedIds => _ownedIds;
     }
 }

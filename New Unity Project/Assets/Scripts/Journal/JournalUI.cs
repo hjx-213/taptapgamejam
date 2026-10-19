@@ -1,11 +1,16 @@
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class JournalUI : MonoBehaviour
 {
     [Header("手记界面")]
     public GameObject journalPanel;
     public GameObject darkOverlay;
+
+    public bool IsOpen => journalPanel != null && journalPanel.activeInHierarchy;
 
     [Header("线索卡片")]
     public JournalClueView[] clueViews;
@@ -21,6 +26,24 @@ public class JournalUI : MonoBehaviour
     [Header("组合结果提示")]
     public TMP_Text combinationResultText;
 
+    [Serializable]
+    public class ClueCombinationRule
+    {
+        [Tooltip("输入线索 A 的 clueId")]
+        public string clueA;
+
+        [Tooltip("输入线索 B 的 clueId")]
+        public string clueB;
+
+        [Tooltip("组合后解锁线索 C 的 clueId")]
+        public string resultClue;
+    }
+
+    [Header("线索组合规则（A + B = C）")]
+    [Tooltip("可添加多条规则；A、B 的选择顺序不限。")]
+    [SerializeField] private List<ClueCombinationRule> combinationRules =
+        new List<ClueCombinationRule>();
+
     private JournalClueView firstSelectedClue;
     private JournalClueView secondSelectedClue;
     private bool isReasoningMode = false;
@@ -33,10 +56,25 @@ public class JournalUI : MonoBehaviour
         currentPageGroup = 0;
 
         if (darkOverlay != null)
+        {
             darkOverlay.SetActive(true);
+            Image overlayImage = darkOverlay.GetComponent<Image>();
+            if (overlayImage != null)
+                overlayImage.raycastTarget = true;
+        }
 
         if (journalPanel != null)
+        {
             journalPanel.SetActive(true);
+
+            CanvasGroup panelGroup = journalPanel.GetComponent<CanvasGroup>();
+            if (panelGroup != null)
+                panelGroup.blocksRaycasts = true;
+
+            Image panelImage = journalPanel.GetComponent<Image>();
+            if (panelImage != null)
+                panelImage.raycastTarget = true;
+        }
 
         ShowMessage("");
         UpdatePageDisplay();
@@ -45,10 +83,25 @@ public class JournalUI : MonoBehaviour
     public void CloseJournal()
     {
         if (journalPanel != null)
+        {
             journalPanel.SetActive(false);
 
+            CanvasGroup panelGroup = journalPanel.GetComponent<CanvasGroup>();
+            if (panelGroup != null)
+                panelGroup.blocksRaycasts = false;
+
+            Image panelImage = journalPanel.GetComponent<Image>();
+            if (panelImage != null)
+                panelImage.raycastTarget = false;
+        }
+
         if (darkOverlay != null)
+        {
             darkOverlay.SetActive(false);
+            Image overlayImage = darkOverlay.GetComponent<Image>();
+            if (overlayImage != null)
+                overlayImage.raycastTarget = false;
+        }
     }
 
     public void NextPage()
@@ -194,13 +247,9 @@ public class JournalUI : MonoBehaviour
         string clueA = firstSelectedClue.entryData.clueId;
         string clueB = secondSelectedClue.entryData.clueId;
 
-        bool correctCombination =
-            (clueA == "suosilan" &&
-             clueB == "shenminvzi") ||
-            (clueA == "shenminvzi" &&
-             clueB == "suosilan");
+        ClueCombinationRule matchedRule = FindCombinationRule(clueA, clueB);
 
-        if (correctCombination)
+        if (matchedRule != null)
         {
             if (JournalManager.Instance == null)
             {
@@ -209,23 +258,27 @@ public class JournalUI : MonoBehaviour
                 return;
             }
 
-            JournalManager.Instance.UnlockClue(
-                "clue1"
-            );
-
-            ShowMessage("发现了新的线索！");
-
-            Debug.Log("推理成功：解锁 clue1。");
-
-            // 刷新所有线索；新线索会显示在它所属的页面。
-            if (clueViews != null)
+            if (string.IsNullOrWhiteSpace(matchedRule.resultClue))
             {
-                foreach (JournalClueView view in clueViews)
-                {
-                    if (view != null)
-                        view.Refresh(currentPageGroup);
-                }
+                ShowMessage("组合规则没有填写结果线索 ID。");
+                Debug.LogWarning("[手记] 匹配到组合规则，但 resultClue 为空。", this);
+                ClearSelectedClues(false);
+                return;
             }
+
+            bool wasAlreadyUnlocked =
+                JournalManager.Instance.IsClueUnlocked(matchedRule.resultClue);
+            // 推理结果已经在手记面板内反馈，不再弹出获得提示。
+            JournalManager.Instance.UnlockClue(
+                matchedRule.resultClue,
+                showAcquisitionFeedback: false);
+
+            ShowMessage(wasAlreadyUnlocked
+                ? "这条线索已经推理出来了。"
+                : "发现了新的线索！");
+
+            Debug.Log($"[手记] 推理成功：{clueA} + {clueB} = {matchedRule.resultClue}。");
+            RefreshClueViews();
         }
         else
         {
@@ -235,6 +288,43 @@ public class JournalUI : MonoBehaviour
 
         // 清除选中状态，但保留刚刚显示的结果文字。
         ClearSelectedClues(false);
+    }
+
+    private ClueCombinationRule FindCombinationRule(string clueA, string clueB)
+    {
+        if (combinationRules == null)
+            return null;
+
+        foreach (ClueCombinationRule rule in combinationRules)
+        {
+            if (rule == null ||
+                string.IsNullOrWhiteSpace(rule.clueA) ||
+                string.IsNullOrWhiteSpace(rule.clueB))
+                continue;
+
+            bool matches =
+                (string.Equals(rule.clueA, clueA, StringComparison.Ordinal) &&
+                 string.Equals(rule.clueB, clueB, StringComparison.Ordinal)) ||
+                (string.Equals(rule.clueA, clueB, StringComparison.Ordinal) &&
+                 string.Equals(rule.clueB, clueA, StringComparison.Ordinal));
+
+            if (matches)
+                return rule;
+        }
+
+        return null;
+    }
+
+    private void RefreshClueViews()
+    {
+        if (clueViews == null)
+            return;
+
+        foreach (JournalClueView view in clueViews)
+        {
+            if (view != null)
+                view.Refresh(currentPageGroup);
+        }
     }
 
     private void ClearSelectedClues(bool clearMessage = true)
