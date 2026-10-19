@@ -6,8 +6,7 @@ namespace Game.UI
 {
     /// <summary>
     /// 全局设置管理器（单例，跨场景）。
-    /// 负责 3 个音量通道的存储和广播。
-    /// AudioManager 将来订阅这里的事件。
+    /// 负责 3 个音量通道的存储和广播；AudioManager 订阅音乐与音效通道。
     /// </summary>
     public class SettingsManager : MonoBehaviour
     {
@@ -18,7 +17,7 @@ namespace Game.UI
         [Range(0f, 1f)] public float MusicVolume = 1f;
         [Range(0f, 1f)] public float VoiceVolume = 1f;
 
-        // 让 AudioManager 订阅这些事件，将来对接
+        // 音量改变时通知 AudioManager 等播放系统。
         [System.Serializable] public class VolumeEvent : UnityEvent<float> { }
         public VolumeEvent OnSoundVolumeChanged = new VolumeEvent();
         public VolumeEvent OnMusicVolumeChanged = new VolumeEvent();

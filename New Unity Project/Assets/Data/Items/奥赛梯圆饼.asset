@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: aosaitiyuanbing
   itemName: "\u5965\u8D5B\u68AF\u5706\u997C"
-  description: 
+  description: "\u5A5A\u5BB4\u4E0A\u51C6\u5907\u7684\u4F20\u7EDF\u98DF\u7269\u3002"
   icon: {fileID: 21300000, guid: 522b890a2fa003e4ab6eea3f73f3f344, type: 3}

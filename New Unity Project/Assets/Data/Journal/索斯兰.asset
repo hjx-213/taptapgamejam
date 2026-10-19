@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clueId: suosilan
   clueTitle: "\u7D22\u65AF\u5170"
-  clueContent: "\u4F60\u7684\u54E5\u54E5\u3002"
+  clueContent: "\u4F60\u7684\u5144\u957F\u3002\u6027\u60C5\u521A\u70C8\uFF0C\u5377\u5165\u4E86\u8FD1\u671F\u4E0E\u654C\u5BF9\u5BB6\u65CF\u7684\u68B0\u6597\uFF0C\u5E76\u5728\u51B2\u7A81\u4E2D\u8EAB\u53D7\u91CD\u4F24\u3002"
   clueImage: {fileID: 21300000, guid: 0b1bb5cd53dc5c0498cd2825f9450f76, type: 3}
   pageGroup: 0

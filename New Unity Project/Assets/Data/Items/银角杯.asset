@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: yinjiaobei
   itemName: "\u94F6\u89D2\u676F"
-  description: 
+  description: "\u6D17\u51C0\u540E\u9732\u51FA\u676F\u8EAB\u523B\u5B57\uFF1A\u201C\u4EE5\u6B64\u676F\u5171\u996E\u8005\u6C38\u91CA\u524D\u5ACC\u3002\u201D"
   icon: {fileID: 21300000, guid: 0263f37cb1e15d9479bbaa571e4bb4b2, type: 3}
