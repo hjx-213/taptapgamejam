@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clueId: peidaiduandao
   clueTitle: "\u4F69\u6234\u77ED\u5200"
-  clueContent: "\u4E16\u4EC7\u4E4B\u4E0B\u5B89\u6709\u5B8C\u5375\u3002"
-  clueImage: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  clueContent: "\u6751\u4E2D\u6709\u8BB8\u591A\u4EBA\u90FD\u4F69\u6234\u7740\u8FD9\u6837\u7684\u77ED\u5200\u3002"
+  clueImage: {fileID: 0}
   pageGroup: 0

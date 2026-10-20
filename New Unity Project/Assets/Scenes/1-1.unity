@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e0bf888444c01c46930735433f218d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueCsv: {fileID: 4900000, guid: e632fce310ddabc40bee159c05b80b4e, type: 3}
+  dialogueCsv: {fileID: 4900000, guid: c7561e65a483b24468deb8cc505e401d, type: 3}
 --- !u!4 &127110020
 Transform:
   m_ObjectHideFlags: 0
@@ -351,7 +351,7 @@ MonoBehaviour:
   destinationSceneName: 1-2
   promptText: "\u5BB4\u4F1A\u533A"
   requireFlag: 1
-  requiredFlagName: openyanhuiqu1
+  requiredFlagName: next
   requiredFlagValue: 1
 --- !u!61 &431088008
 BoxCollider2D:
@@ -792,7 +792,7 @@ MonoBehaviour:
       targetId: cunmin
       requiredCount: 1
     playDialogue: 1
-    dialogueId: 0
+    dialogueId: 18
     changeImage: 0
     triggerDialogueId: 0
     grantItem: 0
@@ -805,7 +805,7 @@ MonoBehaviour:
       targetId: tuiche
       requiredCount: 1
     playDialogue: 1
-    dialogueId: 0
+    dialogueId: 20
     changeImage: 0
     triggerDialogueId: 0
     grantItem: 0
@@ -879,10 +879,10 @@ MonoBehaviour:
   - characterName: "\u963F\u8D6B\u8428\u5C14"
     expression: 
     avatar: {fileID: 21300000, guid: 3a3d5fe0495417d42a49d3907438e39e, type: 3}
-  startId: 0
+  startId: 1
   dialogueFlags:
-  - endDialogueId: 42
-    flagName: test
+  - endDialogueId: 22
+    flagName: next
     flagValue: 1
   autoPlayOnSceneEnter: 1
 --- !u!4 &1086573632
