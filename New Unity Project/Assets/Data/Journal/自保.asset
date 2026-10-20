@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clueId: zibao
   clueTitle: "\u81EA\u4FDD"
-  clueContent: "\u4E16\u4EC7\u4E4B\u4E0B\u5B89\u6709\u5B8C\u5375\u3002"
-  clueImage: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  clueContent: "\u8FD1\u671F\u53D1\u751F\u7684\u68B0\u6597\u8BA9\u6751\u91CC\u4EBA\u5FC3\u60F6\u60F6\u3002\u6751\u6C11\u7EB7\u7EB7\u4F69\u5200\u4EE5\u6C42\u81EA\u4FDD\u3002"
+  clueImage: {fileID: 0}
   pageGroup: 0
